@@ -40,6 +40,8 @@ export interface State {
   recentCustom: string[];
   autoSort: boolean;
   once: boolean;
+  /** Mode to return to after a one-time ("Only for the next download") use. */
+  prevMode: ModeId;
   settings: Settings;
   last: LastEvent | null;
   /** Absolute Downloads folder learned from finished downloads; null until known. */

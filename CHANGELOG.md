@@ -2,10 +2,16 @@
 
 All notable changes are listed here. Format: [Keep a Changelog](https://keepachangelog.com), versions: [SemVer](https://semver.org). [Русский](CHANGELOG.ru.md)
 
-## [0.1.1] — 2026-10-13
+## [0.2.0] — 2026-10-13
+
+### Added
+- **Download all from Gmail**: one button saves every attachment of the open email (each as a separate file, no ZIP) into the chosen folder — or by file type when *Auto-sort* is on. No "Save as" dialog per file.
+- *Only for the next download* now returns to the folder you had **before** (not always to Chrome default); a whole Gmail batch counts as one "next download".
 
 ### Fixed
-- The chosen folder is now created **as soon as you pick it**, so Chrome's "Save as" dialog (when *Ask where to save each file* is on) opens right inside it instead of falling back to Downloads.
+- Picking a folder never starts a download by itself.
+
+### Fixed
 - A file that Chrome saved somewhere else is no longer reported as success: the folder is compared exactly with `Downloads/<folder>`, and the notification explains the usual reasons.
 - Two downloads started at the same moment (e.g. Gmail attachments) can no longer lose their routing record.
 

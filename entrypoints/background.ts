@@ -4,9 +4,10 @@ import { downloadErrorKey } from '../lib/errors';
 import { t, type Key } from '../lib/i18n';
 import { basename, dirname, endsWithFolder, isValidFolder, normalizeFolder, relativeTo, samePath, stripFolder } from '../lib/paths';
 import { extOf } from '../lib/rules';
-import { BADGE_OK, afterRouted, badgeFor, buildFilename, resolveTarget } from '../lib/router';
+import { BADGE_OK, afterRouted, revertOnce, badgeFor, buildFilename, resolveTarget } from '../lib/router';
 import { normalizeState } from '../lib/state';
-import { loadState, logDiag, saveState, setPending, takePending, updateState } from '../lib/storage';
+import { jobActive, loadState, logDiag, readJob, saveState, setPending, takePending, updateJob, updateState, type Job } from '../lib/storage';
+import type { GFile } from '../lib/gmail';
 import type { LastEvent, State } from '../lib/types';
 
 const ICON = '/icon/128.png';
@@ -43,12 +44,7 @@ function notify(id: string, state: State, title: Key, message: string, buttons: 
     .catch((e: unknown) => console.warn('[topath] notify', e));
 }
 
-/** Tiny marker file used to create a folder in advance; removed right after. */
-const KEEP = 'topath-folder.txt';
-const isKeep = (name: string) => basename(name) === KEEP;
-
 async function route(item: { id: number; filename: string; mime?: string; byExtensionId?: string }) {
-  if (item.byExtensionId === browser.runtime.id && isKeep(item.filename)) return null; // our own folder marker
   const state = await loadState();
   const target = resolveTarget(state, item);
   await setPending(item.id, target.folder);
@@ -57,44 +53,45 @@ async function route(item: { id: number; filename: string; mime?: string; byExte
   });
   if (!target.folder) return null;
   const patch = afterRouted(state, target);
-  if (patch) await updateState((s) => ({ ...s, ...patch }));
+  const job = await readJob();
+  // During "Download all from Gmail" a one-time mode stays until the whole batch is done.
+  if (patch && !(jobActive(job) && job.hold)) await updateState((s) => ({ ...s, ...patch }));
   return { filename: buildFilename(target.folder, item.filename), conflictAction: 'uniquify' as const };
 }
 
-/**
- * Make sure `folder` exists inside Downloads, so Chrome's "Save as" dialog (when "Ask where to save
- * each file" is on) opens right there. Chrome creates folders only while saving a file, so we save
- * a 0-byte marker with saveAs:false and delete it immediately.
- */
-const ensured = new Set<string>();
-async function ensureFolder(folder: string): Promise<void> {
-  const f = normalizeFolder(folder);
-  if (!f || ensured.has(f.toLowerCase())) return;
-  ensured.add(f.toLowerCase());
-  try {
-    const id = await browser.downloads.download({
-      url: 'data:text/plain;charset=utf-8,', filename: `${f}/${KEEP}`, saveAs: false, conflictAction: 'overwrite',
-    });
-    for (let i = 0; i < 50; i++) {
-      const [it] = await browser.downloads.search({ id });
-      if (!it || it.state !== 'in_progress') break;
-      await new Promise((r) => setTimeout(r, 100));
-    }
-    await browser.downloads.removeFile(id).catch(() => undefined);
-    await browser.downloads.erase({ id });
-  } catch (e) {
-    ensured.delete(f.toLowerCase());
-    console.warn('[topath] ensureFolder', f, e);
-  }
+/** Count one batch file as done/failed; when the batch is over, release a held one-time mode. */
+async function bump(match: (j: Job) => boolean, ok: boolean, id?: number): Promise<void> {
+  const out = { over: false, hold: false };
+  await updateJob((j) => {
+    if (!j || !j.running || !match(j)) return null;
+    const n: Job = { ...j, done: j.done + (ok ? 1 : 0), failed: j.failed + (ok ? 0 : 1) };
+    if (id !== undefined) n.ids = j.ids.filter((x) => x !== id);
+    if (n.done + n.failed >= n.total) { n.running = false; out.over = true; out.hold = n.hold; }
+    return n;
+  });
+  if (out.over && out.hold) await updateState((s) => (s.once ? { ...s, ...revertOnce(s) } : s));
 }
 
-function foldersToEnsure(s: State): string[] {
-  const out: string[] = [];
-  if (s.autoSort) for (const p of s.presets) if (isValidFolder(p.folder)) out.push(p.folder);
-  if (s.mode === 'custom' && isValidFolder(s.customFolder)) out.push(s.customFolder);
-  const preset = s.presets.find((p) => p.id === s.mode);
-  if (preset && isValidFolder(preset.folder)) out.push(preset.folder);
-  return out;
+async function startGmail(files: GFile[]): Promise<{ ok: boolean }> {
+  if (!files.length || jobActive(await readJob())) return { ok: false };
+  const state = await loadState();
+  const hold = state.once && !state.autoSort && state.mode !== 'default';
+  const label = state.autoSort ? '*'
+    : state.mode === 'default' ? null
+    : state.mode === 'custom' ? normalizeFolder(state.customFolder)
+    : state.presets.find((p) => p.id === state.mode)?.folder ?? null;
+  await updateJob(() => ({ ids: [], total: files.length, done: 0, failed: 0, label, hold, running: true, at: Date.now() }));
+  for (const f of files) {
+    try {
+      // saveAs:false — no "Save as" dialog per file even if Chrome asks where to save.
+      const id = await browser.downloads.download({ url: f.url, saveAs: false, conflictAction: 'uniquify' });
+      await updateJob((j) => (j ? { ...j, ids: [...j.ids, id] } : j));
+    } catch (e) {
+      console.warn('[topath] gmail download', e);
+      await bump(() => true, false);
+    }
+  }
+  return { ok: true };
 }
 
 async function finish(id: number, error: string | null): Promise<void> {
@@ -165,7 +162,6 @@ export default defineBackground(() => {
     if (area !== 'local' || !changes.state) return;
     const next = normalizeState(changes.state.newValue);
     void applyBadge(next);
-    for (const f of foldersToEnsure(next)) void ensureFolder(f);
   });
 
   browser.downloads.onDeterminingFilename.addListener((item, suggest) => {
@@ -180,8 +176,15 @@ export default defineBackground(() => {
 
   browser.downloads.onChanged.addListener((delta) => {
     const st = delta.state?.current;
+    if (st === 'complete' || st === 'interrupted') void bump((j) => j.ids.includes(delta.id), st === 'complete', delta.id);
     if (st === 'complete') void finish(delta.id, null).catch((e: unknown) => console.warn('[topath] finish', e));
     else if (st === 'interrupted') void finish(delta.id, delta.error?.current ?? 'UNKNOWN').catch((e: unknown) => console.warn('[topath] finish', e));
+  });
+
+  browser.runtime.onMessage.addListener((msg: unknown) => {
+    const m = msg as { type?: string; files?: GFile[] } | null;
+    if (m?.type !== 'gmail-all' || !Array.isArray(m.files)) return undefined;
+    return startGmail(m.files.filter((f) => typeof f?.url === 'string').slice(0, 50));
   });
 
   browser.notifications.onButtonClicked.addListener((nid, index) => {
@@ -202,6 +205,6 @@ export default defineBackground(() => {
       notify('custom-missing', state, 'mode.custom', t(state.settings.lang, 'n.missingCustom'));
       return;
     }
-    await updateState((s) => ({ ...s, mode, autoSort: false }));
+    await updateState((s) => ({ ...s, mode, prevMode: s.mode !== mode ? s.mode : s.prevMode, autoSort: false }));
   });
 });

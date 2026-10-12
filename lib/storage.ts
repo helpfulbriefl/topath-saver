@@ -102,3 +102,33 @@ export async function readDiag(): Promise<DiagEntry[]> {
   const got = await browser.storage.local.get(DIAG);
   return (got[DIAG] ?? []) as DiagEntry[];
 }
+
+/** "Download all from Gmail" batch progress (shared by popup and background). */
+export interface Job {
+  ids: number[];
+  total: number;
+  done: number;
+  failed: number;
+  /** Where files go, as shown to the user ("Documents", "Работа/Договоры"); null = Chrome default; "*" = by type. */
+  label: string | null;
+  /** Keep a one-time mode until the whole batch finished. */
+  hold: boolean;
+  running: boolean;
+  at: number;
+}
+const JOB = 'job';
+const JOB_TTL = 10 * 60_000;
+let jobQueue: Promise<unknown> = Promise.resolve();
+export const jobActive = (j: Job | null, now = Date.now()): j is Job => !!j && j.running && now - j.at < JOB_TTL;
+export async function readJob(): Promise<Job | null> {
+  return ((await browser.storage.local.get(JOB))[JOB] as Job | undefined) ?? null;
+}
+export function updateJob(fn: (j: Job | null) => Job | null): Promise<Job | null> {
+  const run = jobQueue.then(async () => {
+    const next = fn(await readJob());
+    if (next) await browser.storage.local.set({ [JOB]: next });
+    return next;
+  });
+  jobQueue = run.catch(() => undefined);
+  return run;
+}

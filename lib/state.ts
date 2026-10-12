@@ -35,6 +35,8 @@ export function normalizeState(raw: unknown): State {
   const customFolder = typeof raw.customFolder === 'string' && isValidFolder(raw.customFolder) ? normalizeFolder(raw.customFolder) : '';
   let mode: ModeId = MODE_ORDER.includes(raw.mode as ModeId) ? (raw.mode as ModeId) : 'default';
   if (mode === 'custom' && !customFolder) mode = 'default';
+  let prevMode: ModeId = MODE_ORDER.includes(raw.prevMode as ModeId) ? (raw.prevMode as ModeId) : 'default';
+  if (prevMode === 'custom' && !customFolder) prevMode = 'default';
   const recentCustom = (Array.isArray(raw.recentCustom) ? raw.recentCustom : [])
     .filter((x): x is string => typeof x === 'string' && isValidFolder(x))
     .map(normalizeFolder)
@@ -49,6 +51,7 @@ export function normalizeState(raw: unknown): State {
     recentCustom,
     autoSort: bool(raw.autoSort, d.autoSort),
     once: bool(raw.once, d.once),
+    prevMode,
     settings: {
       lang: LANGS.includes(s.lang as Lang) ? (s.lang as Lang) : d.settings.lang,
       theme: s.theme === 'dark' ? 'dark' : 'light',

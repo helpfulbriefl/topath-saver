@@ -22,6 +22,7 @@ test('auto-sort wins over mode; unknown types stay default', () => {
 
 test('once returns to default only after a routed manual download', () => {
   expect(afterRouted(st({ mode: 'video', once: true }), { folder: 'Video', reason: 'mode' })).toEqual({ mode: 'default', once: false });
+  expect(afterRouted(st({ mode: 'custom', prevMode: 'documents', once: true }), { folder: 'X', reason: 'mode' })).toEqual({ mode: 'documents', once: false });
   expect(afterRouted(st({ mode: 'video', once: false }), { folder: 'Video', reason: 'mode' })).toBeNull();
   expect(afterRouted(st({ once: true, autoSort: true }), { folder: 'Images', reason: 'auto' })).toBeNull();
 });

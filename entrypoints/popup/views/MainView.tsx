@@ -5,6 +5,7 @@ import { MODE_ORDER } from '../../../lib/defaults';
 import { relTime, t } from '../../../lib/i18n';
 import { TYPE_RULES } from '../../../lib/rules';
 import type { ModeId, Preset, State } from '../../../lib/types';
+import { GmailButton } from '../components/GmailButton';
 import { CustomIcon, DefaultIcon, PRESET_ICONS } from '../components/icons';
 import { Check, Header, IconButton, SectionLabel } from '../components/ui';
 import type { ViewProps } from './types';
@@ -37,7 +38,7 @@ export function MainView({ state, update, go }: ViewProps) {
   const keys = useShortcuts(state.settings.shortcuts);
   const select = (mode: ModeId) => {
     if (mode === 'custom' && !state.customFolder) return go({ name: 'custom' });
-    update((s) => ({ ...s, mode, once: mode === 'default' ? false : s.once }));
+    update((s) => ({ ...s, mode, prevMode: s.mode !== mode ? s.mode : s.prevMode, once: mode === 'default' ? false : s.once }));
   };
 
   const rows = MODE_ORDER.map((mode, i) => {
@@ -116,6 +117,7 @@ export function MainView({ state, update, go }: ViewProps) {
           </div>
         </section>
       )}
+      <GmailButton state={state} />
       <footer className="flex flex-col gap-2.5 border-t border-line bg-soft px-4 py-3">
         <Check checked={state.autoSort} onChange={(v) => update((s) => ({ ...s, autoSort: v }))}>{t(lang, 'opt.autoSort')}</Check>
         <Check checked={state.once} disabled={state.autoSort || state.mode === 'default'} onChange={(v) => update((s) => ({ ...s, once: v }))}>{t(lang, 'opt.once')}</Check>

@@ -22,6 +22,7 @@ export function makeDefaultState(): State {
     recentCustom: [],
     autoSort: false,
     once: false,
+    prevMode: 'default',
     settings: { lang: 'en', theme: 'light', shortcuts: true, badge: true, notifyErrors: true },
     last: null,
     downloadsRoot: null,

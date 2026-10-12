@@ -15,7 +15,7 @@ export default defineConfig({
     description: '__MSG_extDescription__',
     default_locale: 'en',
     minimum_chrome_version: '116',
-    permissions: ['downloads', 'storage', 'notifications'],
+    permissions: ['downloads', 'storage', 'notifications', 'activeTab', 'scripting'],
     action: { default_title: 'ToPath Saver' },
     options_ui: { page: 'popup.html?view=settings', open_in_tab: false },
     commands: {

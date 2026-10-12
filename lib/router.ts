@@ -26,8 +26,13 @@ export function buildFilename(folder: string, original: string): string {
 }
 
 /** "Only for the next download": after one routed download, go back to Chrome default. */
+/** After a one-time use go back to the mode chosen before (Chrome default if none). */
+export function revertOnce(state: State): Partial<State> {
+  return { mode: state.prevMode !== state.mode ? state.prevMode : 'default', once: false };
+}
+
 export function afterRouted(state: State, target: Target): Partial<State> | null {
-  if (state.once && !state.autoSort && target.reason === 'mode') return { mode: 'default', once: false };
+  if (state.once && !state.autoSort && target.reason === 'mode') return revertOnce(state);
   return null;
 }
 

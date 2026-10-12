@@ -137,3 +137,50 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* "Download all from Gmail" — Google-colour ring, glow, shine, G turns now and then */
+.gmail { position: relative; }
+.gmail-glow {
+  position: absolute; inset: 6px 12px; border-radius: 12px; filter: blur(10px); pointer-events: none;
+  background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853); opacity: .45;
+  animation: gm-pulse 2.4s ease-in-out infinite;
+}
+.gmail-ring {
+  position: relative; display: block; width: 100%; padding: 2px; border-radius: 12px; overflow: hidden;
+  border: 0; background: transparent; cursor: pointer; isolation: isolate;
+}
+.gmail-ring::before {
+  content: ""; position: absolute; inset: -150% -10%; z-index: -1;
+  background: conic-gradient(#4285F4, #EA4335, #FBBC05, #34A853, #4285F4);
+  animation: gm-spin 4s linear infinite;
+}
+.gmail-inner {
+  position: relative; display: flex; align-items: center; gap: 10px; overflow: hidden;
+  padding: 8px 12px; border-radius: 10px; background: #1F1D1A; color: #fff;
+}
+.dark .gmail-inner { background: #0F0E0D; }
+.gmail-inner::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -80px; width: 60px; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.32), transparent);
+  animation: gm-shine 3s ease-in-out infinite;
+}
+.gmail-g { display: grid; place-items: center; width: 26px; height: 26px; flex: none; border-radius: 50%; background: #fff; }
+.gmail-g svg { animation: gm-turn 7s cubic-bezier(.6,0,.3,1) infinite; }
+.gmail-busy .gmail-g svg { animation: gm-spin 1s linear infinite; }
+.gmail-count { margin-left: auto; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,.14); font-size: 11.5px; font-weight: 700; }
+.gmail-bar { position: absolute; left: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, #4285F4, #34A853); transition: width .3s; }
+.gmail-ring:hover:not(:disabled) .gmail-inner { background: #2A2825; }
+.gmail-busy .gmail-ring { cursor: progress; }
+.gmail-off .gmail-glow, .gmail-off .gmail-inner::after { display: none; }
+.gmail-off .gmail-ring { cursor: default; }
+.gmail-off .gmail-ring::before { background: var(--color-line); animation: none; }
+.gmail-off .gmail-inner { background: var(--color-soft); color: var(--color-mut); }
+.gmail-off .gmail-g { filter: grayscale(1); opacity: .6; }
+.gmail-off .gmail-g svg { animation: none; }
+@keyframes gm-spin { to { transform: rotate(360deg); } }
+@keyframes gm-turn { 0%, 80% { transform: rotate(0); } 95%, 100% { transform: rotate(360deg); } }
+@keyframes gm-shine { 0% { left: -80px; } 60%, 100% { left: 120%; } }
+@keyframes gm-pulse { 0%, 100% { opacity: .3; } 50% { opacity: .7; } }
+@media (prefers-reduced-motion: reduce) {
+  .gmail-glow, .gmail-ring::before, .gmail-inner::after, .gmail-g svg { animation: none !important; }
+}

@@ -128,10 +128,9 @@ test('02 pick Images → real download lands in Downloads/Images, badge IMG', as
   await page.getByRole('radio', { name: /Images/ }).click();
   await expect(page.getByRole('radio', { name: /Images/ })).toHaveAttribute('aria-checked', 'true');
   await expect.poll(() => badge(sw)).toBe('IMG');
-  // Folder is created right away (so a "Save as" dialog would open in it), marker file is gone.
-  await expect.poll(() => fs.existsSync(path.join(DL_ROOT, 'Images'))).toBe(true);
-  await expect.poll(() => fs.readdirSync(path.join(DL_ROOT, 'Images')).length).toBe(0);
-  expect(await sw.evaluate(async () => (await chrome.downloads.search({})).filter((d) => d.filename.includes('topath-folder.txt')).length)).toBe(0);
+  // Picking a folder only sets the target: it never starts a download by itself.
+  await page.waitForTimeout(500);
+  expect(await sw.evaluate(async () => (await chrome.downloads.search({})).length)).toBe(0);
   const r = await download(sw, `${origin}/photo.jpg`);
   expect(r.state).toBe('complete');
   expect(sep(r.filename)).toMatch(/\/Images\/photo( \(\d+\))?\.jpg$/);
@@ -200,10 +199,11 @@ test('04 custom folder: invalid input blocked, fix, save, real download', async 
   await page.close();
 });
 
-test('05 once: Video for one download, then back to Chrome default', async ({ ext, extensionId, sw, origin }) => {
+test('05 once: Video for one download, then back to the mode chosen before (Chrome default)', async ({ ext, extensionId, sw, origin }) => {
   const page = await ext.newPage();
   await page.setViewportSize({ width: 340, height: 560 });
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  await page.getByRole('radio', { name: /Chrome default/ }).click();
   await page.getByRole('radio', { name: /Video/ }).click();
   await page.getByLabel('Only for the next download').check();
   await expect.poll(async () => (await stateOf(sw)).once).toBe(true);
@@ -261,5 +261,30 @@ test('07 failed download → error recorded, file never lost', async ({ ext, ext
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
   await expect(page.getByRole('status')).toContainText('download failed');
   fs.writeFileSync(`${PR}/download-error.txt`, priv(`${r.state} ${r.error}\n`));
+  await page.close();
+});
+
+test('08 Download all from Gmail: batch keeps one-time folder, then returns to previous', async ({ ext, extensionId, sw, origin }) => {
+  const page = await ext.newPage();
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  // Not a Gmail tab → button disabled with a hint.
+  await expect(page.getByRole('button', { name: /Download all from Gmail/ })).toBeDisabled();
+  await expect(page.getByText('Open a Gmail email with attachments')).toBeVisible();
+  await page.getByRole('radio', { name: /Documents/ }).click();
+  await page.getByRole('radio', { name: /Images/ }).click();
+  await page.getByRole('checkbox', { name: /Only for the next download/ }).check();
+  await expect.poll(async () => (await stateOf(sw)).once).toBe(true);
+  const files = [{ url: `${origin}/contract-1.docx`, name: 'contract-1.docx' }, { url: `${origin}/contract-2.docx`, name: 'contract-2.docx' }];
+  await page.evaluate((f) => chrome.runtime.sendMessage({ type: 'gmail-all', files: f }), files);
+  await expect.poll(async () => sw.evaluate(async () => (await chrome.storage.local.get('job')).job), { timeout: 15000 })
+    .toMatchObject({ total: 2, done: 2, failed: 0, running: false, label: 'Images' });
+  const got = await sw.evaluate(async () => (await chrome.downloads.search({ orderBy: ['-startTime'], limit: 2 })).map((d) => d.filename));
+  for (const g of got) expect(sep(g)).toMatch(/\/Images\/contract-\d( \(\d+\))?\.docx$/);
+  fs.writeFileSync(`${PR}/download-gmail-all.txt`, priv(got.join('\n') + '\n'));
+  const s = await stateOf(sw);
+  expect(s.mode).toBe('documents');
+  expect(s.once).toBe(false);
+  await expect(page.getByText(/2 files saved · Images/)).toBeVisible();
+  await page.getByRole('radio', { name: /Chrome default/ }).click();
   await page.close();
 });
