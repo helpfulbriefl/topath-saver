@@ -6,6 +6,7 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ### Added
 - **Download all from Gmail**: one button saves every attachment of the open email (each as a separate file, no ZIP) into the chosen folder — or by file type when *Auto-sort* is on. No "Save as" dialog per file.
+- **Icon styles** in Settings: thin lines (Lucide), duotone (Phosphor), Windows 11 (Fluent, default) and 3D (Fluent Emoji); each folder type has its own colour.
 - *Only for the next download* now returns to the folder you had **before** (not always to Chrome default); a whole Gmail batch counts as one "next download".
 
 ### Fixed

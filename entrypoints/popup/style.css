@@ -184,3 +184,33 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .gmail-glow, .gmail-ring::before, .gmail-inner::after, .gmail-g svg { animation: none !important; }
 }
+
+/* Icon styles (Settings → Icon style). Lucide keeps the original look. */
+[data-tone="blue"] { --tone: #2563EB; } [data-tone="green"] { --tone: #16A34A; } [data-tone="red"] { --tone: #DC2626; }
+[data-tone="amber"] { --tone: #D97706; } [data-tone="pink"] { --tone: #DB2777; } [data-tone="violet"] { --tone: #7C3AED; }
+[data-tone="teal"] { --tone: #0D9488; } [data-tone="slate"] { --tone: #475569; } [data-tone="brown"] { --tone: #92400E; }
+[data-tone="cyan"] { --tone: #0891B2; } [data-tone="gray"] { --tone: #6B7280; }
+.ti { display: inline-grid; place-items: center; flex: none; color: var(--tone); }
+.ti svg { width: 100%; height: 100%; fill: currentColor; }
+.ti-3d { object-fit: contain; filter: drop-shadow(0 1px 1px rgba(0,0,0,.12)); }
+.row-icon:has(.ti) { border: 0; transition: transform .15s ease, box-shadow .2s ease; }
+.row-icon:has(.ti-phosphor) { background: color-mix(in srgb, var(--tone) 13%, transparent); }
+.row-icon:has(.ti-fluent) {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--tone) 72%, white), var(--tone));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 1px 2px rgba(0,0,0,.18);
+}
+.row-icon:has(.ti-fluent) .ti { color: #fff; }
+.row-icon:has(.ti-3d) { background: transparent; }
+.row-icon:has([data-tone="blue"]) { --tone: #2563EB; } .row-icon:has([data-tone="green"]) { --tone: #16A34A; }
+.row-icon:has([data-tone="red"]) { --tone: #DC2626; } .row-icon:has([data-tone="amber"]) { --tone: #D97706; }
+.row-icon:has([data-tone="pink"]) { --tone: #DB2777; } .row-icon:has([data-tone="violet"]) { --tone: #7C3AED; }
+.row-icon:has([data-tone="teal"]) { --tone: #0D9488; } .row-icon:has([data-tone="slate"]) { --tone: #475569; }
+.row-icon:has([data-tone="brown"]) { --tone: #92400E; } .row-icon:has([data-tone="cyan"]) { --tone: #0891B2; }
+.row-icon:has([data-tone="gray"]) { --tone: #6B7280; }
+.row-on .row-icon:has(.ti-phosphor) { background: color-mix(in srgb, var(--tone) 13%, transparent); border: 0; box-shadow: 0 0 0 2px var(--tone); }
+.row-on .row-icon:has(.ti-fluent) { border: 0; box-shadow: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--tone); }
+.row-on .row-icon:has(.ti-3d) { background: transparent; border: 0; transform: scale(1.12); }
+.row:hover .row-icon:has(.ti) { transform: translateY(-1px); }
+.dark .row-icon:has(.ti-phosphor) { background: color-mix(in srgb, var(--tone) 22%, transparent); }
+.seg-icons button { display: grid; place-items: center; min-width: 34px; }
+@media (prefers-reduced-motion: reduce) { .row-icon:has(.ti) { transition: none; } .row:hover .row-icon:has(.ti) { transform: none; } }

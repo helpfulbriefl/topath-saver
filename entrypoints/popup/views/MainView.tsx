@@ -1,4 +1,4 @@
-import { AlertTriangle, Check as CheckIcon, Pencil, Settings, Sparkles, XCircle } from 'lucide-react';
+import { AlertTriangle, Check as CheckIcon, Pencil, Sparkles, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { browser } from 'wxt/browser';
 import { MODE_ORDER } from '../../../lib/defaults';
@@ -6,7 +6,7 @@ import { relTime, t } from '../../../lib/i18n';
 import { TYPE_RULES } from '../../../lib/rules';
 import type { ModeId, Preset, State } from '../../../lib/types';
 import { GmailButton } from '../components/GmailButton';
-import { CustomIcon, DefaultIcon, PRESET_ICONS } from '../components/icons';
+import { CustomIcon, DefaultIcon, GearIcon, LogoIcon, PRESET_ICONS } from '../components/icons';
 import { Check, Header, IconButton, SectionLabel } from '../components/ui';
 import type { ViewProps } from './types';
 
@@ -28,7 +28,7 @@ function useShortcuts(enabled: boolean): Record<string, string> {
 export function Logo() {
   return (
     <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-ink text-paper">
-      <DefaultIcon size={15} aria-hidden />
+      <LogoIcon size={15} aria-hidden />
     </span>
   );
 }
@@ -55,7 +55,7 @@ export function MainView({ state, update, go }: ViewProps) {
 
   return (
     <main>
-      <Header title="ToPath Saver" logo={<Logo />} right={<IconButton label={t(lang, 'a11y.settings')} icon={Settings} onClick={() => go({ name: 'settings' })} />} />
+      <Header title="ToPath Saver" logo={<Logo />} right={<IconButton label={t(lang, 'a11y.settings')} icon={GearIcon} onClick={() => go({ name: 'settings' })} />} />
       {state.autoSort ? (
         <section className="px-2 py-2.5">
           <div className="mx-1 mb-2 flex items-center gap-2.5 rounded-lg bg-ok-soft px-3 py-2.5">

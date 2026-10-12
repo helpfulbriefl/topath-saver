@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { PresetId } from '../../lib/types';
+import { IconSetContext } from './components/icons';
 import { useAppState } from './useAppState';
 import { CustomView } from './views/CustomView';
 import { MainView } from './views/MainView';
@@ -23,11 +24,13 @@ export default function App() {
   if (!state) return <div className="h-[420px]" aria-busy="true" />;
   const props = { state, update, go: setView };
   return (
-    <div key={view.name} className="view-enter">
+    <IconSetContext.Provider value={state.settings.icons}>
+    <div key={view.name} className="view-enter" data-icons={state.settings.icons}>
       {view.name === 'main' && <MainView {...props} />}
       {view.name === 'custom' && <CustomView {...props} />}
       {view.name === 'settings' && <SettingsView {...props} />}
       {view.name === 'preset' && <PresetView {...props} id={view.id} />}
     </div>
+    </IconSetContext.Provider>
   );
 }

@@ -19,7 +19,7 @@ test('keeps valid values and repairs invalid ones', () => {
   expect(s.autoSort).toBe(true);
   expect(s.presets.find((p) => p.id === 'images')).toMatchObject({ name: 'Pics', folder: 'Pics/2026', icon: 'camera', badge: 'IMG' });
   expect(s.presets.find((p) => p.id === 'video')).toMatchObject({ folder: 'Video', icon: 'video' });
-  expect(s.settings).toEqual({ lang: 'ru', theme: 'dark', shortcuts: false, badge: true, notifyErrors: true });
+  expect(s.settings).toEqual({ lang: 'ru', theme: 'dark', icons: 'fluent', shortcuts: false, badge: true, notifyErrors: true });
   expect(s.recentCustom).toEqual(['A', 'B']);
 });
 

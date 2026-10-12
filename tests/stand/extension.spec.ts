@@ -288,3 +288,20 @@ test('08 Download all from Gmail: batch keeps one-time folder, then returns to p
   await page.getByRole('radio', { name: /Chrome default/ }).click();
   await page.close();
 });
+
+test('09 icon styles: lines, duotone, Windows 11, 3D — switch in Settings', async ({ ext, extensionId, sw }) => {
+  const page = await ext.newPage();
+  await page.setViewportSize({ width: 340, height: 600 });
+  await page.goto(`chrome-extension://${extensionId}/popup.html?view=settings`);
+  for (const [name, set] of [['Lines', 'lucide'], ['Duotone', 'phosphor'], ['3D', 'fluent3d'], ['Windows 11', 'fluent']] as const) {
+    await page.getByRole('radio', { name, exact: true }).click();
+    await expect.poll(async () => (await stateOf(sw)).settings.icons).toBe(set);
+    await page.goto(`chrome-extension://${extensionId}/popup.html`);
+    await page.getByRole('radio', { name: /Documents/ }).click();
+    if (set !== 'lucide') await expect(page.locator('.row-icon .ti').first()).toBeVisible();
+    if (set === 'fluent3d') await expect.poll(() => page.locator('img.ti-3d').first().evaluate((i) => (i as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    await shot(page, `m06-icons-${set}`);
+    await page.goto(`chrome-extension://${extensionId}/popup.html?view=settings`);
+  }
+  await page.close();
+});

@@ -5,6 +5,7 @@ export type IconName =
   | 'folder' | 'book' | 'code' | 'briefcase' | 'camera';
 export type Lang = 'en' | 'ru' | 'zh' | 'es';
 export type Theme = 'light' | 'dark';
+export type IconSet = 'lucide' | 'phosphor' | 'fluent' | 'fluent3d';
 
 export interface Preset {
   id: PresetId;
@@ -18,6 +19,7 @@ export interface Preset {
 export interface Settings {
   lang: Lang;
   theme: Theme;
+  icons: IconSet;
   shortcuts: boolean;
   badge: boolean;
   notifyErrors: boolean;

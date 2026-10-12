@@ -6,8 +6,10 @@ import { CONTACT_URL, ETH_ADDRESS, ETH_URI, REPO_URL, SHORTCUTS_URL } from '../.
 import { makeDefaultState } from '../../../lib/defaults';
 import { LANG_LABELS, t } from '../../../lib/i18n';
 import { readDiag } from '../../../lib/storage';
-import type { Lang, Settings } from '../../../lib/types';
-import { PRESET_ICONS } from '../components/icons';
+import type { IconSet, Lang, Settings } from '../../../lib/types';
+
+const ICON_SETS: IconSet[] = ['lucide', 'phosphor', 'fluent', 'fluent3d'];
+import { PRESET_ICONS, ThemedIcon } from '../components/icons';
 import { CloseButton, Header, SettingRow, Switch } from '../components/ui';
 import { presetName } from './MainView';
 import type { ViewProps } from './types';
@@ -37,6 +39,15 @@ export function SettingsView({ state, update, go }: ViewProps) {
       </SettingRow>
       <SettingRow title={t(lang, 'set.dark')} sub={t(lang, 'set.darkSub')}>
         <Switch label={t(lang, 'set.dark')} checked={state.settings.theme === 'dark'} onChange={(v) => set({ theme: v ? 'dark' : 'light' })} />
+      </SettingRow>
+      <SettingRow title={t(lang, 'set.icons')} sub={t(lang, `icons.${state.settings.icons}`)}>
+        <div className="seg seg-icons" role="radiogroup" aria-label={t(lang, 'set.icons')}>
+          {ICON_SETS.map((k) => (
+            <button key={k} type="button" role="radio" aria-checked={state.settings.icons === k} aria-label={t(lang, `icons.${k}`)} title={t(lang, `icons.${k}`)} onClick={() => set({ icons: k })}>
+              <ThemedIcon glyph="file-text" set={k} size={15} aria-hidden />
+            </button>
+          ))}
+        </div>
       </SettingRow>
       <SettingRow
         title={t(lang, 'set.shortcuts')}

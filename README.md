@@ -27,8 +27,10 @@ Chrome · Edge · Brave (Chromium 116+) · English, Russian, Simplified Chinese 
 | --- | --- |
 | Switching folders | Pick **Documents**, **Images**, **Video**, **Archives** or your own folder in the popup — every next download goes there. No more "Save as…" dialogs. |
 | Sorting automatically | Turn on **Auto-sort by file type**: pdf → Documents, jpg → Images, mp4 → Video, zip → Archives. Unknown types stay in Chrome's default folder. |
-| One-off downloads | **Only for the next download** — route one file and return to Chrome default automatically. |
+| Gmail attachments | **Download all from Gmail** — every attachment of the open email lands in the chosen folder as separate files (no ZIP, no dialogs). Sorted by type if Auto-sort is on. |
+| One-off downloads | **Only for the next download** — route one file (or one Gmail batch) and return to the folder you had before. |
 | Your own structure | A custom folder like `Work/Q4` with live validation and **Fix automatically** for illegal characters. Presets are editable: name, folder, icon. |
+| Your look | Four icon styles in Settings: thin lines, duotone, Windows 11 and 3D. |
 | Speed | Keyboard shortcuts **Alt+Shift+1…4** and a toolbar badge (`DOC`, `IMG`, `VID`, `ZIP`, `DIR`, `AUTO`) that always shows where files go. |
 | Safety | If something fails, you get a notification with **Retry** and **Open folder**. The file is never lost — Chrome keeps it in Downloads. |
 
@@ -70,7 +72,7 @@ Chrome allows at most four suggested shortcuts per extension. You can change all
 
 ## Privacy
 
-No analytics, no telemetry, **no network requests at all**. Settings live in `chrome.storage.local` on your device. Permissions: `downloads`, `storage`, `notifications`. Details: [PRIVACY.md](PRIVACY.md).
+No analytics, no telemetry, **no requests to any server of ours**. Settings live in `chrome.storage.local` on your device. Permissions: `downloads`, `storage`, `notifications`, plus `activeTab` + `scripting` used only when you open the popup on a Gmail tab (to find attachment links of the open email). Details: [PRIVACY.md](PRIVACY.md).
 
 ## Build and test
 
@@ -120,4 +122,4 @@ Please double-check the address and the network before sending. The same card wi
 
 ## License and credits
 
-[MIT](LICENSE) © 2026 helpfulbriefl. Icons: [Lucide](https://lucide.dev) (ISC). Built with [WXT](https://wxt.dev) (MIT), [React](https://react.dev) (MIT) and [Tailwind CSS](https://tailwindcss.com) (MIT).
+[MIT](LICENSE) © 2026 helpfulbriefl. Icons: [Lucide](https://lucide.dev) (ISC), [Phosphor](https://phosphoricons.com) (MIT), [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) and [Fluent Emoji](https://github.com/microsoft/fluentui-emoji) (MIT, © Microsoft). Google «G» logo is a trademark of Google LLC, used to label the Gmail action. Built with [WXT](https://wxt.dev) (MIT), [React](https://react.dev) (MIT) and [Tailwind CSS](https://tailwindcss.com) (MIT).

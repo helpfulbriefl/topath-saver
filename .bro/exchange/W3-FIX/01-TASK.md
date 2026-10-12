@@ -5,8 +5,8 @@ allow: docs/screenshots/**; package-lock.json
 modules: BG, STORAGE, POPUP, GMAIL, STAND · mirror: %LOCALAPPDATA%\BRO-MIRROR\topath-saver · risky: no
 road: W0-BRIEF=done!:Бриф; W1-INIT=done:Проверка и запуск; W2-RELEASE=done!:Авторы и релиз; W3-FIX=run!:Фикс + Gmail 0.2.0; W4-STORE=todo!:Web Store; W5-POLISH=todo:Полировка
 ---
-# TASK W3-FIX — verify analyst code 0.2.0 on Windows, regenerate README screenshots, ship v0.2.0 (Gmail «Download all»)
-<!-- 0.2.0 adds «Download all from Gmail» (lib/gmail.ts, components/GmailButton.tsx, job in storage, prevMode). Marker pre-create removed after Owner test (it showed «Без названия.txt» downloads on folder click). Code is done by analyst (commit «0.1.1: folder pre-create, strict landing check, diagnostics»). You don't edit src/tests. -->
+# TASK W3-FIX — verify analyst code 0.2.0 on Windows, regenerate README screenshots, ship v0.2.0 (Gmail «Download all» + icon styles)
+<!-- 0.2.0 adds «Download all from Gmail» (lib/gmail.ts, components/GmailButton.tsx, job in storage, prevMode) + icon styles (components/icons.tsx, lib/iconsets.ts, lib/icons3d.ts). Marker pre-create removed after Owner test (it showed «Без названия.txt» downloads on folder click). Code is done by analyst (commit «0.1.1: folder pre-create, strict landing check, diagnostics»). You don't edit src/tests. -->
 ## 0 Read
 .bro/exchange/W2-RELEASE/03-ACCEPT.md · CHANGELOG.md (0.2.0, 0.1.1) · entrypoints/background.ts (route, finish) · tests/stand/extension.spec.ts (02, 02b, 05, 08) · lib/gmail.ts
 ## 1 Context
@@ -14,8 +14,8 @@ Owner smoke test of v0.1.0 FAILED: Documents chosen, 2 .docx from Gmail → land
 ## 2 Decisions (don't change)
 D-13 identity local only (helpfulbriefl / 210454348+helpfulbriefl@users.noreply.github.com), never --global · D-09 never Apex4Coder · no force-push, no retag.
 ## 3 PASS + stand
-PASS: 1 `git log origin/main --format="%an <%ae>" -5` → only helpfulbriefl · 2 `npm run gates` exit 0, stand = 9 passed (01, 02, 02b, 03, 04, 05, 06, 07, 08) · 3 proof download-parallel.txt shows 2 files under `~\…\Downloads\Documents\`; download-images.txt under `Images\`; download-gmail-all.txt 2 files under `Images\`; picking a folder starts no download (test 02) · 4 docs/screenshots/*.png regenerated with DOCS=1; m05-main-dark.png has NO red error line · 5 GitHub release v0.2.0 with `topath-saver-0.2.0-chrome.zip` + `SHA256SUMS.txt`, workflow «Release» = success
-Stand, plain words: popup → Images → real download into folder (picking starts no download) → two .docx at once → both in Documents → auto-sort → custom → once → settings → failed download → «Download all from Gmail» batch (08).
+PASS: 1 `git log origin/main --format="%an <%ae>" -5` → only helpfulbriefl · 2 `npm run gates` exit 0, stand = 10 passed (01, 02, 02b, 03, 04, 05, 06, 07, 08, 09) · 3 proof download-parallel.txt shows 2 files under `~\…\Downloads\Documents\`; download-images.txt under `Images\`; download-gmail-all.txt 2 files under `Images\`; picking a folder starts no download (test 02) · 4 docs/screenshots/*.png regenerated with DOCS=1; m05-main-dark.png has NO red error line · 5 GitHub release v0.2.0 with `topath-saver-0.2.0-chrome.zip` + `SHA256SUMS.txt`, workflow «Release» = success
+Stand, plain words: popup → Images → real download into folder (picking starts no download) → two .docx at once → both in Documents → auto-sort → custom → once → settings → failed download → «Download all from Gmail» batch (08) → 4 icon styles (09, screens m06-icons-*).
 Proof: proof/INDEX.md + logs/gates.log, logs/npm-ci.log, logs/docs.log, download-*.txt, logs/release.log
 gates: `npm run gates` (BRO_PROOF=.bro\exchange\W3-FIX\proof)
 ## 4 Key code

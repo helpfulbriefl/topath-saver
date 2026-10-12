@@ -1,6 +1,6 @@
 import { DEFAULT_PRESETS, ICON_NAMES, MODE_ORDER, makeDefaultState } from './defaults';
 import { isValidFolder, normalizeFolder } from './paths';
-import type { IconName, Lang, LastEvent, ModeId, Preset, State } from './types';
+import type { IconName, Lang, LastEvent, ModeId, Preset, State, IconSet } from './types';
 
 const LANGS: Lang[] = ['en', 'ru', 'zh', 'es'];
 const isObj = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null && !Array.isArray(x);
@@ -55,6 +55,7 @@ export function normalizeState(raw: unknown): State {
     settings: {
       lang: LANGS.includes(s.lang as Lang) ? (s.lang as Lang) : d.settings.lang,
       theme: s.theme === 'dark' ? 'dark' : 'light',
+      icons: (['lucide', 'phosphor', 'fluent', 'fluent3d'] as const).includes(s.icons as IconSet) ? (s.icons as IconSet) : d.settings.icons,
       shortcuts: bool(s.shortcuts, d.settings.shortcuts),
       badge: bool(s.badge, d.settings.badge),
       notifyErrors: bool(s.notifyErrors, d.settings.notifyErrors),
