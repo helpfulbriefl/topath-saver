@@ -1,0 +1,26 @@
+{
+  "extName": {
+    "message": "ToPath Saver"
+  },
+  "extDescription": {
+    "message": "两次点击切换下载文件夹：文档、图片、视频、压缩包或自定义子文件夹。"
+  },
+  "cmdMode1": {
+    "message": "保存到 Chrome 默认文件夹"
+  },
+  "cmdMode2": {
+    "message": "保存到文档"
+  },
+  "cmdMode3": {
+    "message": "保存到图片"
+  },
+  "cmdMode4": {
+    "message": "保存到视频"
+  },
+  "cmdMode5": {
+    "message": "保存到压缩包"
+  },
+  "cmdMode6": {
+    "message": "保存到自定义文件夹"
+  }
+}

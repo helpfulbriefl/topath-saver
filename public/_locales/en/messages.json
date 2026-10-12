@@ -1,0 +1,26 @@
+{
+  "extName": {
+    "message": "ToPath Saver"
+  },
+  "extDescription": {
+    "message": "Switch the download folder in two clicks: Documents, Images, Video, Archives or your own subfolder."
+  },
+  "cmdMode1": {
+    "message": "Save to Chrome default folder"
+  },
+  "cmdMode2": {
+    "message": "Save to Documents"
+  },
+  "cmdMode3": {
+    "message": "Save to Images"
+  },
+  "cmdMode4": {
+    "message": "Save to Video"
+  },
+  "cmdMode5": {
+    "message": "Save to Archives"
+  },
+  "cmdMode6": {
+    "message": "Save to custom folder"
+  }
+}

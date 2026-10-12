@@ -1,0 +1,29 @@
+# deps / build
+node_modules/
+.output/
+.wxt/
+dist/
+*.zip
+# generated from assets/icon.svg on npm install
+public/icon/
+# tests
+test-results/
+playwright-report/
+blob-report/
+coverage/
+# secrets & local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crx
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+# BRO: local-only
+.bro/archive/
+!.bro/exchange/**/trace.zip

@@ -1,0 +1,26 @@
+{
+  "extName": {
+    "message": "ToPath Saver"
+  },
+  "extDescription": {
+    "message": "Cambia la carpeta de descargas en dos clics: Documentos, Imágenes, Vídeo, Archivos o tu propia subcarpeta."
+  },
+  "cmdMode1": {
+    "message": "Guardar en la carpeta de Chrome"
+  },
+  "cmdMode2": {
+    "message": "Guardar en Documentos"
+  },
+  "cmdMode3": {
+    "message": "Guardar en Imágenes"
+  },
+  "cmdMode4": {
+    "message": "Guardar en Vídeo"
+  },
+  "cmdMode5": {
+    "message": "Guardar en Archivos comprimidos"
+  },
+  "cmdMode6": {
+    "message": "Guardar en carpeta personalizada"
+  }
+}
