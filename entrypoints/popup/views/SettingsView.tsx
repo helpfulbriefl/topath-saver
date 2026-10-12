@@ -1,10 +1,11 @@
-import { Code, Coffee, Copy, ExternalLink, Keyboard, RotateCcw, Send, Wallet } from 'lucide-react';
+import { Activity, Check, Code, Coffee, Copy, ExternalLink, Keyboard, RotateCcw, Send, Wallet } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { browser } from 'wxt/browser';
 import qrUrl from '../../../assets/eth-qr.svg?url';
 import { CONTACT_URL, ETH_ADDRESS, ETH_URI, REPO_URL, SHORTCUTS_URL } from '../../../lib/config';
 import { makeDefaultState } from '../../../lib/defaults';
 import { LANG_LABELS, t } from '../../../lib/i18n';
+import { readDiag } from '../../../lib/storage';
 import type { Lang, Settings } from '../../../lib/types';
 import { PRESET_ICONS } from '../components/icons';
 import { CloseButton, Header, SettingRow, Switch } from '../components/ui';
@@ -54,6 +55,10 @@ export function SettingsView({ state, update, go }: ViewProps) {
         <Switch label={t(lang, 'set.notify')} checked={state.settings.notifyErrors} onChange={(v) => set({ notifyErrors: v })} />
       </SettingRow>
 
+      <SettingRow title={t(lang, 'set.diag')} sub={t(lang, 'set.diagSub')}>
+        <DiagButton lang={lang} state={state} />
+      </SettingRow>
+
       <section className="border-b border-line px-4 py-3">
         <div className="mb-2 text-[11px] uppercase tracking-[.08em] text-mut">{t(lang, 'set.presets')}</div>
         <div className="flex gap-2">
@@ -86,6 +91,37 @@ export function SettingsView({ state, update, go }: ViewProps) {
         <span className="mono text-[11px] text-mut">v{version}</span>
       </div>
     </main>
+  );
+}
+
+/** Copies a privacy-safe report (no file names, no absolute paths) for bug reports. */
+function DiagButton({ lang, state }: { lang: Lang; state: ViewProps['state'] }) {
+  const [done, setDone] = useState(false);
+  const copy = async () => {
+    const report = {
+      app: `ToPath Saver ${browser.runtime.getManifest().version}`,
+      chrome: /Chrome\/([\d.]+)/.exec(navigator.userAgent)?.[1] ?? '?',
+      os: navigator.platform,
+      mode: state.mode,
+      autoSort: state.autoSort,
+      once: state.once,
+      folders: state.presets.map((p) => p.folder),
+      custom: state.customFolder ? 'set' : '-',
+      rootKnown: Boolean(state.downloadsRoot),
+      downloads: await readDiag(),
+    };
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(report, null, 1));
+      setDone(true);
+      setTimeout(() => setDone(false), 1500);
+    } catch {
+      /* clipboard blocked */
+    }
+  };
+  return (
+    <button type="button" className="icon-btn size-8 shrink-0" onClick={() => void copy()} aria-label={t(lang, done ? 'set.diagCopied' : 'set.diag')} title={t(lang, 'set.diag')}>
+      {done ? <Check size={14} aria-hidden /> : <Activity size={14} aria-hidden />}
+    </button>
   );
 }
 

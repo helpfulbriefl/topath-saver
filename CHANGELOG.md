@@ -2,6 +2,17 @@
 
 All notable changes are listed here. Format: [Keep a Changelog](https://keepachangelog.com), versions: [SemVer](https://semver.org). [Русский](CHANGELOG.ru.md)
 
+## [0.1.1] — 2026-10-13
+
+### Fixed
+- The chosen folder is now created **as soon as you pick it**, so Chrome's "Save as" dialog (when *Ask where to save each file* is on) opens right inside it instead of falling back to Downloads.
+- A file that Chrome saved somewhere else is no longer reported as success: the folder is compared exactly with `Downloads/<folder>`, and the notification explains the usual reasons.
+- Two downloads started at the same moment (e.g. Gmail attachments) can no longer lose their routing record.
+
+### Added
+- **Settings → Copy diagnostics**: the last 20 downloads (mode, file type, target and actual folder; no file names, no full paths) for bug reports.
+- The status line now shows the folder first: "In Documents/: file.docx".
+
 ## [0.1.0] — 2026-10-12
 
 ### Added

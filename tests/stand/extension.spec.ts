@@ -128,14 +128,33 @@ test('02 pick Images → real download lands in Downloads/Images, badge IMG', as
   await page.getByRole('radio', { name: /Images/ }).click();
   await expect(page.getByRole('radio', { name: /Images/ })).toHaveAttribute('aria-checked', 'true');
   await expect.poll(() => badge(sw)).toBe('IMG');
+  // Folder is created right away (so a "Save as" dialog would open in it), marker file is gone.
+  await expect.poll(() => fs.existsSync(path.join(DL_ROOT, 'Images'))).toBe(true);
+  await expect.poll(() => fs.readdirSync(path.join(DL_ROOT, 'Images')).length).toBe(0);
+  expect(await sw.evaluate(async () => (await chrome.downloads.search({})).filter((d) => d.filename.includes('topath-folder.txt')).length)).toBe(0);
   const r = await download(sw, `${origin}/photo.jpg`);
   expect(r.state).toBe('complete');
   expect(sep(r.filename)).toMatch(/\/Images\/photo( \(\d+\))?\.jpg$/);
   fs.writeFileSync(`${PR}/download-images.txt`, priv(`${r.state} ${r.filename}\n`));
   await expect.poll(async () => (await stateOf(sw)).last?.status).toBe('ok');
   await page.reload();
-  await expect(page.getByRole('status')).toContainText('photo.jpg → Images/');
+  await expect(page.getByRole('status')).toContainText('In Images/: photo.jpg');
   await shot(page, 'm01-images-selected');
+  await page.close();
+});
+
+test('02b two downloads at once (Gmail "download all") both land in Documents', async ({ ext, extensionId, sw, origin }) => {
+  const page = await ext.newPage();
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  await page.getByRole('radio', { name: /Documents/ }).click();
+  await expect.poll(() => badge(sw)).toBe('DOC');
+  const [a, b] = await Promise.all([download(sw, `${origin}/contract-1.docx`), download(sw, `${origin}/contract-2.docx`)]);
+  expect(sep(a.filename)).toMatch(/\/Documents\/contract-1( \(\d+\))?\.docx$/);
+  expect(sep(b.filename)).toMatch(/\/Documents\/contract-2( \(\d+\))?\.docx$/);
+  const diag = await sw.evaluate(async () => (await chrome.storage.local.get('diag')).diag as { ext: string; want: string; status: string }[]);
+  expect(diag.filter((d) => d.ext === 'docx' && d.want === 'Documents' && d.status === 'ok').length).toBe(2);
+  fs.writeFileSync(`${PR}/download-parallel.txt`, priv(`${a.filename}\n${b.filename}\n`));
+  await page.getByRole('radio', { name: /Chrome default/ }).click();
   await page.close();
 });
 
@@ -197,27 +216,7 @@ test('05 once: Video for one download, then back to Chrome default', async ({ ex
   await page.close();
 });
 
-test('06 failed download → error recorded, file never lost', async ({ ext, extensionId, sw }) => {
-  const r = await sw.evaluate(async () => {
-    const id = await chrome.downloads.download({ url: 'http://127.0.0.1:9/nothing.bin' });
-    for (let i = 0; i < 100; i++) {
-      const [it] = await chrome.downloads.search({ id });
-      if (it && it.state !== 'in_progress') return { state: it.state, error: it.error ?? '' };
-      await new Promise((res) => setTimeout(res, 100));
-    }
-    return { state: 'timeout', error: '' };
-  });
-  expect(r.state).toBe('interrupted');
-  await expect.poll(async () => (await stateOf(sw)).last?.status).toBe('error');
-  const page = await ext.newPage();
-  await page.setViewportSize({ width: 340, height: 560 });
-  await page.goto(`chrome-extension://${extensionId}/popup.html`);
-  await expect(page.getByRole('status')).toContainText('download failed');
-  fs.writeFileSync(`${PR}/download-error.txt`, priv(`${r.state} ${r.error}\n`));
-  await page.close();
-});
-
-test('07 settings: language, dark theme, support card, reset', async ({ ext, extensionId, sw }) => {
+test('06 settings: language, dark theme, support card, reset', async ({ ext, extensionId, sw }) => {
   const page = await ext.newPage();
   await page.setViewportSize({ width: 340, height: 1100 });
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
@@ -242,5 +241,25 @@ test('07 settings: language, dark theme, support card, reset', async ({ ext, ext
   await page.getByRole('button', { name: 'Reset to defaults' }).click();
   await page.getByRole('button', { name: /Click again/ }).click();
   await expect.poll(async () => (await stateOf(sw)).mode).toBe('default');
+  await page.close();
+});
+
+test('07 failed download → error recorded, file never lost', async ({ ext, extensionId, sw }) => {
+  const r = await sw.evaluate(async () => {
+    const id = await chrome.downloads.download({ url: 'http://127.0.0.1:9/nothing.bin' });
+    for (let i = 0; i < 100; i++) {
+      const [it] = await chrome.downloads.search({ id });
+      if (it && it.state !== 'in_progress') return { state: it.state, error: it.error ?? '' };
+      await new Promise((res) => setTimeout(res, 100));
+    }
+    return { state: 'timeout', error: '' };
+  });
+  expect(r.state).toBe('interrupted');
+  await expect.poll(async () => (await stateOf(sw)).last?.status).toBe('error');
+  const page = await ext.newPage();
+  await page.setViewportSize({ width: 340, height: 560 });
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  await expect(page.getByRole('status')).toContainText('download failed');
+  fs.writeFileSync(`${PR}/download-error.txt`, priv(`${r.state} ${r.error}\n`));
   await page.close();
 });

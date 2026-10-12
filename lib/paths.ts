@@ -95,3 +95,18 @@ export function stripFolder(dir: string, folder: string): string {
   for (let i = 0; i < n; i++) rest = dirname(rest);
   return rest;
 }
+
+/** Same folder? Case-insensitive, separator-agnostic (Windows paths). */
+export function samePath(a: string, b: string): boolean {
+  const x = segments(a).map((v) => v.toLowerCase());
+  const y = segments(b).map((v) => v.toLowerCase());
+  return x.length === y.length && x.every((v, i) => v === y[i]);
+}
+
+/** `dir` relative to `root` ('' = root itself), or null when `dir` is outside `root`. */
+export function relativeTo(root: string, dir: string): string | null {
+  const r = segments(root).map((v) => v.toLowerCase());
+  const d = segments(dir);
+  if (d.length < r.length || !r.every((v, i) => v === d[i]!.toLowerCase())) return null;
+  return d.slice(r.length).join('/');
+}

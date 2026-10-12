@@ -9,6 +9,6 @@ test('every language has every key, none empty', () => {
 });
 
 test('placeholders', () => {
-  expect(t('en', 'last.ok', { file: 'a.jpg', folder: 'Images/' })).toBe('a.jpg → Images/');
+  expect(t('en', 'last.ok', { file: 'a.jpg', folder: 'Images/' })).toBe('In Images/: a.jpg');
   expect(relTime('ru', 0, 5 * 60000)).toBe('5 мин назад');
 });

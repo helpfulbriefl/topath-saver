@@ -37,26 +37,68 @@ export function onStateChange(cb: (s: State) => void): () => void {
   return () => browser.storage.onChanged.removeListener(listener);
 }
 
-/* Pending downloads live in session storage so they survive a service-worker restart. */
+/* Pending downloads live in session storage so they survive a service-worker restart.
+   All access goes through one queue: two downloads starting together must not overwrite each other. */
 const PENDING = 'pending';
 type Pending = Record<string, string | null>;
-
-export async function setPending(id: number, folder: string | null): Promise<void> {
-  const got = await browser.storage.session.get(PENDING);
-  const map = (got[PENDING] ?? {}) as Pending;
-  map[String(id)] = folder;
-  const keys = Object.keys(map);
-  if (keys.length > 200) for (const k of keys.slice(0, keys.length - 200)) delete map[k];
-  await browser.storage.session.set({ [PENDING]: map });
+let pendingQueue: Promise<unknown> = Promise.resolve();
+function withPending<T>(fn: (map: Pending) => T): Promise<T> {
+  const run = pendingQueue.then(async () => {
+    const got = await browser.storage.session.get(PENDING);
+    const map = { ...((got[PENDING] ?? {}) as Pending) };
+    const out = fn(map);
+    await browser.storage.session.set({ [PENDING]: map });
+    return out;
+  });
+  pendingQueue = run.catch(() => undefined);
+  return run;
 }
 
-export async function takePending(id: number): Promise<{ known: boolean; folder: string | null }> {
-  const got = await browser.storage.session.get(PENDING);
-  const map = (got[PENDING] ?? {}) as Pending;
-  const k = String(id);
-  if (!(k in map)) return { known: false, folder: null };
-  const folder = map[k] ?? null;
-  delete map[k];
-  await browser.storage.session.set({ [PENDING]: map });
-  return { known: true, folder };
+export function setPending(id: number, folder: string | null): Promise<void> {
+  return withPending((map) => {
+    map[String(id)] = folder;
+    const keys = Object.keys(map);
+    if (keys.length > 200) for (const k of keys.slice(0, keys.length - 200)) delete map[k];
+  });
+}
+
+export function takePending(id: number): Promise<{ known: boolean; folder: string | null }> {
+  return withPending((map) => {
+    const k = String(id);
+    if (!(k in map)) return { known: false, folder: null };
+    const folder = map[k] ?? null;
+    delete map[k];
+    return { known: true, folder };
+  });
+}
+
+/* Diagnostics: last 20 routing decisions, no file names (only extension), no absolute paths. */
+const DIAG = 'diag';
+export interface DiagEntry {
+  id: number;
+  at: number;
+  mode: string;
+  auto: boolean;
+  ext: string;
+  mime: string;
+  want: string | null;
+  got?: string;
+  status?: string;
+}
+let diagQueue: Promise<unknown> = Promise.resolve();
+export function logDiag(id: number, patch: Partial<DiagEntry>): Promise<void> {
+  const run = diagQueue.then(async () => {
+    const got = await browser.storage.local.get(DIAG);
+    const list = ((got[DIAG] ?? []) as DiagEntry[]).slice(-19);
+    const i = list.findIndex((e) => e.id === id);
+    if (i >= 0) list[i] = { ...list[i]!, ...patch };
+    else list.push({ id, at: Date.now(), mode: '', auto: false, ext: '', mime: '', want: null, ...patch });
+    await browser.storage.local.set({ [DIAG]: list });
+  });
+  diagQueue = run.catch(() => undefined);
+  return run;
+}
+export async function readDiag(): Promise<DiagEntry[]> {
+  const got = await browser.storage.local.get(DIAG);
+  return (got[DIAG] ?? []) as DiagEntry[];
 }

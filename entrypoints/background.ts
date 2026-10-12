@@ -2,10 +2,11 @@ import { browser } from 'wxt/browser';
 import { MODE_ORDER } from '../lib/defaults';
 import { downloadErrorKey } from '../lib/errors';
 import { t, type Key } from '../lib/i18n';
-import { basename, dirname, endsWithFolder, isValidFolder, stripFolder } from '../lib/paths';
+import { basename, dirname, endsWithFolder, isValidFolder, normalizeFolder, relativeTo, samePath, stripFolder } from '../lib/paths';
+import { extOf } from '../lib/rules';
 import { BADGE_OK, afterRouted, badgeFor, buildFilename, resolveTarget } from '../lib/router';
 import { normalizeState } from '../lib/state';
-import { loadState, saveState, setPending, takePending, updateState } from '../lib/storage';
+import { loadState, logDiag, saveState, setPending, takePending, updateState } from '../lib/storage';
 import type { LastEvent, State } from '../lib/types';
 
 const ICON = '/icon/128.png';
@@ -42,19 +43,63 @@ function notify(id: string, state: State, title: Key, message: string, buttons: 
     .catch((e: unknown) => console.warn('[topath] notify', e));
 }
 
-async function route(item: { id: number; filename: string; mime?: string }) {
+/** Tiny marker file used to create a folder in advance; removed right after. */
+const KEEP = 'topath-folder.txt';
+const isKeep = (name: string) => basename(name) === KEEP;
+
+async function route(item: { id: number; filename: string; mime?: string; byExtensionId?: string }) {
+  if (item.byExtensionId === browser.runtime.id && isKeep(item.filename)) return null; // our own folder marker
   const state = await loadState();
   const target = resolveTarget(state, item);
   await setPending(item.id, target.folder);
+  void logDiag(item.id, {
+    mode: state.mode, auto: state.autoSort, ext: extOf(item.filename) || '-', mime: item.mime ?? '', want: target.folder,
+  });
   if (!target.folder) return null;
   const patch = afterRouted(state, target);
   if (patch) await updateState((s) => ({ ...s, ...patch }));
   return { filename: buildFilename(target.folder, item.filename), conflictAction: 'uniquify' as const };
 }
 
+/**
+ * Make sure `folder` exists inside Downloads, so Chrome's "Save as" dialog (when "Ask where to save
+ * each file" is on) opens right there. Chrome creates folders only while saving a file, so we save
+ * a 0-byte marker with saveAs:false and delete it immediately.
+ */
+const ensured = new Set<string>();
+async function ensureFolder(folder: string): Promise<void> {
+  const f = normalizeFolder(folder);
+  if (!f || ensured.has(f.toLowerCase())) return;
+  ensured.add(f.toLowerCase());
+  try {
+    const id = await browser.downloads.download({
+      url: 'data:text/plain;charset=utf-8,', filename: `${f}/${KEEP}`, saveAs: false, conflictAction: 'overwrite',
+    });
+    for (let i = 0; i < 50; i++) {
+      const [it] = await browser.downloads.search({ id });
+      if (!it || it.state !== 'in_progress') break;
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    await browser.downloads.removeFile(id).catch(() => undefined);
+    await browser.downloads.erase({ id });
+  } catch (e) {
+    ensured.delete(f.toLowerCase());
+    console.warn('[topath] ensureFolder', f, e);
+  }
+}
+
+function foldersToEnsure(s: State): string[] {
+  const out: string[] = [];
+  if (s.autoSort) for (const p of s.presets) if (isValidFolder(p.folder)) out.push(p.folder);
+  if (s.mode === 'custom' && isValidFolder(s.customFolder)) out.push(s.customFolder);
+  const preset = s.presets.find((p) => p.id === s.mode);
+  if (preset && isValidFolder(preset.folder)) out.push(preset.folder);
+  return out;
+}
+
 async function finish(id: number, error: string | null): Promise<void> {
   const pending = await takePending(id);
-  if (!pending.known) return; // started before we were listening
+  if (!pending.known) return; // started before we were listening (or our own marker)
   const [item] = await browser.downloads.search({ id });
   if (!item) return;
   const abs = item.filename ?? '';
@@ -63,8 +108,13 @@ async function finish(id: number, error: string | null): Promise<void> {
   const state = await loadState();
   const lang = state.settings.lang;
   const at = Date.now();
+  const dir = dirname(abs);
+  const root = state.downloadsRoot;
+  const rel = root ? relativeTo(root, dir) : null;
+  const where = rel === null ? (root ? 'outside-downloads' : '?') : rel || '(root)';
 
   if (error) {
+    void logDiag(id, { status: `error:${error}`, got: where });
     if (error === 'USER_CANCELED') return;
     const last: LastEvent = { id, file, folder, status: 'error', error, at };
     await updateState((s) => ({ ...s, last }));
@@ -72,20 +122,23 @@ async function finish(id: number, error: string | null): Promise<void> {
     return;
   }
 
-  const dir = dirname(abs);
-  if (folder && abs && !endsWithFolder(dir, folder)) {
+  // Routed file must end up exactly in <Downloads>/<folder>. When the root is known, compare exactly:
+  // a Save-as dialog can drop it into e.g. C:\Users\me\Documents, which merely *ends* with "Documents".
+  const landed = folder ? (root ? samePath(dir, `${root}/${folder}`) : endsWithFolder(dir, folder)) : true;
+  void logDiag(id, { status: landed ? 'ok' : 'moved', got: where });
+  if (!landed) {
     const last: LastEvent = { id, file, folder, status: 'conflict', at };
     await updateState((s) => ({ ...s, last }));
     notify(`conflict:${id}`, state, 'n.conflictTitle', t(lang, 'n.conflictMsg', { path: abs }), ['n.showFile']);
     return;
   }
-  const root = folder ? stripFolder(dir, folder) : dir;
+  const learned = folder ? stripFolder(dir, folder) : dir;
   const last: LastEvent = { id, file, folder, status: 'ok', at };
   const next = await updateState((s) => ({
     ...s,
     last,
     // Learn the Downloads root only from routed files, or once from a default download.
-    downloadsRoot: root && (folder || !s.downloadsRoot) ? root : s.downloadsRoot,
+    downloadsRoot: learned && (folder || !s.downloadsRoot) ? learned : s.downloadsRoot,
   }));
   flashOk(next);
 }
@@ -109,7 +162,10 @@ export default defineBackground(() => {
   });
   browser.runtime.onStartup.addListener(async () => applyBadge(await loadState()));
   browser.storage.onChanged.addListener((changes, area) => {
-    if (area === 'local' && changes.state) void applyBadge(normalizeState(changes.state.newValue));
+    if (area !== 'local' || !changes.state) return;
+    const next = normalizeState(changes.state.newValue);
+    void applyBadge(next);
+    for (const f of foldersToEnsure(next)) void ensureFolder(f);
   });
 
   browser.downloads.onDeterminingFilename.addListener((item, suggest) => {
