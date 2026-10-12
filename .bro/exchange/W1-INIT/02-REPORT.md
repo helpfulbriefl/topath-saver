@@ -1,10 +1,10 @@
 ---
-wave: W1-INIT · ver: v3.0 · t_start: auto · t_report: auto
-commit: auto · tag: auto · push: auto · bundle: auto · pack: auto · exchange: auto
-tasks: auto · done: auto · gates_first: no · repair: 1 · proof_ok: auto · proof_req: auto
-diff_files: auto · diff_add: auto · diff_del: auto · out_of_scope: auto · q: auto · contradictions: 0
+wave: W1-INIT · ver: v3.0 · t_start: 2026-10-12 23:52 · t_report: 2026-10-13 00:03
+commit: a43d9c8 · tag: w1-init-done · push: ✅ · bundle: ✅ · pack: ✅ · exchange: ✅
+tasks: 6 · done: 5 · gates_first: no · repair: 1 · proof_ok: 6 · proof_req: 7
+diff_files: 17 · diff_add: 32 · diff_del: 9 · out_of_scope: 10 · q: 1 · contradictions: 0
 K1: 1 · K2: 1 · K3: 1 · K4: 1 · k_why: - · friction_cd: #env
-cd_in: auto · cd_out: auto · prompt_weight: auto · an_in_prev: auto · an_out_prev: auto
+cd_in: 4355 · cd_out: 1738 · prompt_weight: 4515 · an_in_prev: - · an_out_prev: -
 ---
 # REPORT W1-INIT — verified on Windows (rev 2)
 <!-- you: gates_first yes|no · repair 0-3 · contradictions N · K1-K4 0|1 (score the TASK: K1 enough data: paths, inputs, key code · K2 no conflict with MAP/SPEC · K3 3-6 tasks of one layer · K4 PASS checkable) · k_why 1 line why a 0, or - · friction_cd one of #unclear-task #no-access #env #invented #too-big #tool-fail, or - · auto = bro finish -->
