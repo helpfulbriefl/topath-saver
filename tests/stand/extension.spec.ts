@@ -42,7 +42,7 @@ const test = base.extend<{}, Fx>({
     const cdp = await context.newCDPSession(page);
     await cdp.send('Browser.setDownloadBehavior', { behavior: 'default' });
     DL_ROOT = downloads;
-    fs.writeFileSync(path.join(PR, 'downloads-root.txt'), `${downloads}\n`);
+    fs.writeFileSync(path.join(PR, 'downloads-root.txt'), priv(`${downloads}\n`));
     await use(context);
     await context.close();
   }, { scope: 'worker' }],
@@ -100,6 +100,8 @@ async function download(sw: Worker, url: string): Promise<{ filename: string; st
 const stateOf = (sw: Worker) => sw.evaluate(async () => (await chrome.storage.local.get('state')).state as Record<string, any>);
 const badge = (sw: Worker) => sw.evaluate(() => chrome.action.getBadgeText({}));
 const sep = (p: string) => p.replace(/\\/g, '/');
+/** Proof files go to a public repo: hide the user's home folder (C:\Users\<name> → ~). */
+const priv = (t: string) => t.split(os.homedir()).join('~');
 
 test.describe.configure({ mode: 'serial' });
 
@@ -129,7 +131,7 @@ test('02 pick Images → real download lands in Downloads/Images, badge IMG', as
   const r = await download(sw, `${origin}/photo.jpg`);
   expect(r.state).toBe('complete');
   expect(sep(r.filename)).toMatch(/\/Images\/photo( \(\d+\))?\.jpg$/);
-  fs.writeFileSync(`${PR}/download-images.txt`, `${r.state} ${r.filename}\n`);
+  fs.writeFileSync(`${PR}/download-images.txt`, priv(`${r.state} ${r.filename}\n`));
   await expect.poll(async () => (await stateOf(sw)).last?.status).toBe('ok');
   await page.reload();
   await expect(page.getByRole('status')).toContainText('photo.jpg → Images/');
@@ -149,7 +151,7 @@ test('03 auto-sort: pdf → Documents, exe → Chrome default', async ({ ext, ex
   expect(sep(pdf.filename)).toMatch(/\/Documents\/report( \(\d+\))?\.pdf$/);
   const exe = await download(sw, `${origin}/setup.exe`);
   expect(sep(exe.filename)).not.toMatch(/\/(Documents|Images|Video|Archives)\//);
-  fs.writeFileSync(`${PR}/download-autosort.txt`, `${pdf.filename}\n${exe.filename}\n`);
+  fs.writeFileSync(`${PR}/download-autosort.txt`, priv(`${pdf.filename}\n${exe.filename}\n`));
   await page.getByLabel('Auto-sort by file type').uncheck();
   await page.close();
 });
@@ -175,7 +177,7 @@ test('04 custom folder: invalid input blocked, fix, save, real download', async 
   await expect.poll(() => badge(sw)).toBe('DIR');
   const r = await download(sw, `${origin}/notes.txt`);
   expect(sep(r.filename)).toMatch(/\/Work\/Q4report\/notes( \(\d+\))?\.txt$/);
-  fs.writeFileSync(`${PR}/download-custom.txt`, `${r.filename}\n`);
+  fs.writeFileSync(`${PR}/download-custom.txt`, priv(`${r.filename}\n`));
   await page.close();
 });
 
@@ -191,7 +193,7 @@ test('05 once: Video for one download, then back to Chrome default', async ({ ex
   await expect.poll(async () => (await stateOf(sw)).mode).toBe('default');
   const second = await download(sw, `${origin}/clip2.mp4`);
   expect(sep(second.filename)).not.toMatch(/\/Video\//);
-  fs.writeFileSync(`${PR}/download-once.txt`, `${first.filename}\n${second.filename}\n`);
+  fs.writeFileSync(`${PR}/download-once.txt`, priv(`${first.filename}\n${second.filename}\n`));
   await page.close();
 });
 
@@ -211,7 +213,7 @@ test('06 failed download → error recorded, file never lost', async ({ ext, ext
   await page.setViewportSize({ width: 340, height: 560 });
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
   await expect(page.getByRole('status')).toContainText('download failed');
-  fs.writeFileSync(`${PR}/download-error.txt`, `${r.state} ${r.error}\n`);
+  fs.writeFileSync(`${PR}/download-error.txt`, priv(`${r.state} ${r.error}\n`));
   await page.close();
 });
 
