@@ -2,17 +2,17 @@ window.BRO_STATE = {
     "project":  "topath-saver",
     "ver":  "v3.0",
     "mode":  "JOIN",
-    "updated":  "2026-10-13 00:34",
-    "wave":  "W2-RELEASE",
-    "current":  "Авторы и релиз",
-    "turn":  "analyst",
-    "turn_text":  "🧠 аналитик",
-    "todo":  "напиши аналитику: BRO CHECK",
-    "next_stop":  "🛑 Авторы и релиз — сейчас",
-    "done":  2,
-    "total":  5,
-    "pct":  40,
-    "bar":  "▰▰▰▱▱▱▱▱",
+    "updated":  "2026-10-13 02:38",
+    "wave":  "W3-FIX",
+    "current":  "Фикс + Gmail 0.2.0",
+    "turn":  "coder",
+    "turn_text":  "🤖 кодер",
+    "todo":  "ничего — ждём «Готово» от кодера",
+    "next_stop":  "🛑 Фикс + Gmail 0.2.0 — сейчас",
+    "done":  3,
+    "total":  6,
+    "pct":  50,
+    "bar":  "▰▰▰▰▱▱▱▱",
     "road":  [
                  {
                      "id":  "W0-BRIEF",
@@ -29,32 +29,38 @@ window.BRO_STATE = {
                  {
                      "id":  "W2-RELEASE",
                      "title":  "Авторы и релиз",
+                     "status":  "done",
+                     "stop":  true
+                 },
+                 {
+                     "id":  "W3-FIX",
+                     "title":  "Фикс + Gmail 0.2.0",
                      "status":  "run",
                      "stop":  true
                  },
                  {
-                     "id":  "W3-STORE",
+                     "id":  "W4-STORE",
                      "title":  "Web Store",
                      "status":  "todo",
                      "stop":  true
                  },
                  {
-                     "id":  "W4-POLISH",
+                     "id":  "W5-POLISH",
                      "title":  "Полировка",
                      "status":  "todo",
                      "stop":  false
                  }
              ],
     "metrics":  {
-                    "waves":  1,
-                    "first_pass":  "0/1",
+                    "waves":  2,
+                    "first_pass":  "1/2",
                     "false_done":  0,
-                    "minutes":  11,
-                    "wait":  164,
-                    "ptok_task":  1929,
-                    "gh":  9,
+                    "minutes":  6,
+                    "wait":  9,
+                    "ptok_task":  1595,
+                    "gh":  7,
                     "k":  4,
-                    "o":  3
+                    "o":  3.5
                 },
     "waves":  [
                   {
@@ -65,6 +71,15 @@ window.BRO_STATE = {
                       "done":  "5",
                       "defects":  "3",
                       "gh":  "9"
+                  },
+                  {
+                      "wave":  "W2-RELEASE",
+                      "verdict":  "PASS",
+                      "minutes":  6,
+                      "tasks":  "6",
+                      "done":  "6",
+                      "defects":  "0",
+                      "gh":  "5"
                   }
               ]
 };

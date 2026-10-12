@@ -54,4 +54,4 @@ tests/stand/extension.spec.ts · real-build stand 01–07 · 0
 </details>
 
 ## §10 Roadmap
-W1-INIT=run:Проверка и запуск; W2-STORE=todo!:Web Store; W3-POLISH=todo:Полировка · next: W1-INIT
+W0-BRIEF=done!:Бриф; W1-INIT=done:Проверка и запуск; W2-RELEASE=done!:Авторы и релиз; W3-FIX=run!:Фикс + Gmail 0.2.0; W4-STORE=todo!:Web Store; W5-POLISH=todo:Полировка · next: W4-STORE after Owner v0.2.0 smoke test

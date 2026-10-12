@@ -1,0 +1,18 @@
+- main:
+  - heading "ToPath Saver" [level=1]
+  - button "Settings"
+  - text: Save next downloads to
+  - radiogroup "Download folder":
+    - radio "Chrome default As set in Chrome Alt+Shift+1" [checked]
+    - radio "Documents Downloads/Documents Alt+Shift+2"
+    - radio "Images Downloads/Images Alt+Shift+3"
+    - radio "Video Downloads/Video Alt+Shift+4"
+    - radio "Archives Downloads/Archives"
+    - radio "Custom Choose a folder…"
+    - button "Edit custom folder"
+  - button "Download all from Gmail" [disabled]
+  - paragraph: Open a Gmail email with attachments
+  - checkbox "Auto-sort by file type"
+  - text: Auto-sort by file type
+  - checkbox "Only for the next download" [disabled]
+  - text: Only for the next download

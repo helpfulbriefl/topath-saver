@@ -12,3 +12,7 @@ Analyst fix: Vitest globals, `stand` = build + playwright, stand guards, `npm ru
 ## L-003 · 2026-10-13 · W1-INIT · ◐PARTIAL @a43d9c8 · w1-init-done
 #tags: windows green vitest-globals identity apex4coder metrics
 Result: Windows gates green (tsc, vitest 38, build, stand 7/7 real downloads), 7 README screenshots, SYS on helpfulbriefl mirror (.apex-old kept). Defect: commits authored by Apex4Coder global identity → W2 fixes. New: G-P03, D-13.
+
+## L-004 · 2026-10-13 · W2-RELEASE · ✔PASS @4e7ff1a · w2-release-done
+#tags: reset-author force-with-lease release v0.1.0 sha256
+Result: history authors fixed (no Apex4Coder), local identity in P+SYS (D-13), metrics in own SYS, GitHub release v0.1.0 (zip 105 KB + SHA256SUMS) via Actions. Next: Owner smoke test (S4) → W3-STORE.

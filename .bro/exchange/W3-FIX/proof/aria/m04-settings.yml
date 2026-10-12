@@ -1,0 +1,50 @@
+- main:
+  - button "Back"
+  - heading "Settings" [level=1]
+  - button "Close"
+  - text: Language Interface language
+  - radiogroup "Language":
+    - radio "EN" [checked]
+    - radio "RU"
+    - radio "CN"
+    - radio "ES"
+  - text: Dark theme Light by default
+  - switch "Dark theme"
+  - text: Icon style Windows 11
+  - radiogroup "Icon style":
+    - radio "Lines"
+    - radio "Duotone"
+    - radio "Windows 11" [checked]
+    - radio "3D"
+  - text: Keyboard shortcuts
+  - button "Customize shortcuts"
+  - switch "Keyboard shortcuts" [checked]
+  - text: Show toolbar badge DOC, IMG, AUTO…
+  - switch "Show toolbar badge" [checked]
+  - text: Notify on errors Silent when all is fine
+  - switch "Notify on errors" [checked]
+  - text: "Copy diagnostics Last 20 downloads: mode, file type, folder. No file names."
+  - button "Copy diagnostics"
+  - text: Presets
+  - button "Documents"
+  - button "Images"
+  - button "Video"
+  - button "Archives"
+  - paragraph: Click to rename or change the icon
+  - region "Support":
+    - text: Support
+    - img "QR code with the Ethereum address"
+    - text: Buy me a coffee
+    - paragraph: If ToPath Saver saves you time, you can treat the author to a coffee.
+    - text: Ethereum · ERC-20
+    - code: "0x50153B5CC3eae905291d62602226C80896Aa64f2"
+    - button "Copy address"
+    - link "Open in wallet":
+      - /url: ethereum:0x50153B5CC3eae905291d62602226C80896Aa64f2
+    - paragraph: Double-check the address before sending.
+    - link "Source code & issues":
+      - /url: https://github.com/helpfulbriefl/topath-saver
+    - link "Open to freelance or part-time work":
+      - /url: https://t.me/yumi_acess
+  - button "Reset to defaults"
+  - text: v0.2.0
