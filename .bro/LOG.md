@@ -8,3 +8,7 @@ G-P01: Playwright download handling bypasses extension routing → CDP behavior 
 #tags: vitest globals current-suite windows doctor
 Coder rev 1: preflight ✅ (gh = helpfulbriefl), SYS → helpfulbriefl mirror ✅, clone ✅; gates ❌ vitest 0 tests on Windows (Z-01), stand ❌ no build (Z-02).
 Analyst fix: Vitest globals, `stand` = build + playwright, stand guards, `npm run doctor`. TASK rev 2 resumes at task 4.
+
+## L-003 · 2026-10-13 · W1-INIT · ◐PARTIAL @a43d9c8 · w1-init-done
+#tags: windows green vitest-globals identity apex4coder metrics
+Result: Windows gates green (tsc, vitest 38, build, stand 7/7 real downloads), 7 README screenshots, SYS on helpfulbriefl mirror (.apex-old kept). Defect: commits authored by Apex4Coder global identity → W2 fixes. New: G-P03, D-13.

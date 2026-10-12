@@ -2,17 +2,17 @@ window.BRO_STATE = {
     "project":  "topath-saver",
     "ver":  "v3.0",
     "mode":  "JOIN",
-    "updated":  "2026-10-13 00:03",
-    "wave":  "W1-INIT",
-    "current":  "Проверка и запуск",
-    "turn":  "analyst",
-    "turn_text":  "🧠 аналитик",
-    "todo":  "напиши аналитику: BRO CHECK",
-    "next_stop":  "🛑 Web Store через 1 шаг.",
-    "done":  1,
-    "total":  4,
-    "pct":  25,
-    "bar":  "▰▰▱▱▱▱▱▱",
+    "updated":  "2026-10-13 00:28",
+    "wave":  "W2-RELEASE",
+    "current":  "Авторы и релиз",
+    "turn":  "coder",
+    "turn_text":  "🤖 кодер",
+    "todo":  "ничего — ждём «Готово» от кодера",
+    "next_stop":  "🛑 Авторы и релиз — сейчас",
+    "done":  2,
+    "total":  5,
+    "pct":  40,
+    "bar":  "▰▰▰▱▱▱▱▱",
     "road":  [
                  {
                      "id":  "W0-BRIEF",
@@ -23,34 +23,48 @@ window.BRO_STATE = {
                  {
                      "id":  "W1-INIT",
                      "title":  "Проверка и запуск",
-                     "status":  "run",
+                     "status":  "done",
                      "stop":  false
                  },
                  {
-                     "id":  "W2-STORE",
+                     "id":  "W2-RELEASE",
+                     "title":  "Авторы и релиз",
+                     "status":  "run",
+                     "stop":  true
+                 },
+                 {
+                     "id":  "W3-STORE",
                      "title":  "Web Store",
                      "status":  "todo",
                      "stop":  true
                  },
                  {
-                     "id":  "W3-POLISH",
+                     "id":  "W4-POLISH",
                      "title":  "Полировка",
                      "status":  "todo",
                      "stop":  false
                  }
              ],
     "metrics":  {
-                    "waves":  0,
-                    "first_pass":  "-",
+                    "waves":  1,
+                    "first_pass":  "0/1",
                     "false_done":  0,
-                    "minutes":  "-",
-                    "wait":  "-",
-                    "ptok_task":  "-",
-                    "gh":  "-",
-                    "k":  "-",
-                    "o":  "-"
+                    "minutes":  11,
+                    "wait":  164,
+                    "ptok_task":  1929,
+                    "gh":  9,
+                    "k":  4,
+                    "o":  3
                 },
     "waves":  [
-
+                  {
+                      "wave":  "W1-INIT",
+                      "verdict":  "PARTIAL",
+                      "minutes":  11,
+                      "tasks":  "6",
+                      "done":  "5",
+                      "defects":  "3",
+                      "gh":  "9"
+                  }
               ]
 };

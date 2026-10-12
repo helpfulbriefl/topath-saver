@@ -24,7 +24,7 @@ wxt 0.21.4 · @wxt-dev/module-react 1.2.2 · react/react-dom 19.3.0 · typescrip
 </details>
 <details><summary>§5 Decisions · active D only</summary>
 
-D-01 BRO v3.0 · D-02 modes default + Documents/Images/Video/Archives + Custom, folders auto-created silently · D-03 no native helper · D-04 stack §3 · D-05 style Paper × AtomicCRM = M01–M05 · D-06 i18n EN default, RU, ZH_CN, ES, own selector · D-07 shortcuts on by default, toggle in settings, 4 suggested keys · D-08 public repo, README EN (Folio style) + RU · D-09 system mirror in helpfulbriefl, upstream read-only · D-10 analyst writes code via GitHub, coder verifies on Windows · D-11 coffee = ETH ERC-20 card (QR, copy, wallet link) in README + Settings · D-12 contacts t.me/yumi_acess, helpfulbriefl.github.io, «open to work» in README
+D-01 BRO v3.0 · D-02 modes default + Documents/Images/Video/Archives + Custom, folders auto-created silently · D-03 no native helper · D-04 stack §3 · D-05 style Paper × AtomicCRM = M01–M05 · D-06 i18n EN default, RU, ZH_CN, ES, own selector · D-07 shortcuts on by default, toggle in settings, 4 suggested keys · D-08 public repo, README EN (Folio style) + RU · D-09 system mirror in helpfulbriefl, upstream read-only · D-10 analyst writes code via GitHub, coder verifies · D-11 coffee = ETH ERC-20 card in README + Settings · D-12 contacts t.me/yumi_acess, helpfulbriefl.github.io · D-13 git identity per repo (P, SYS) = `helpfulbriefl <210454348+helpfulbriefl@users.noreply.github.com>`; never change global config (PC also serves other work accounts)
 </details>
 <details><summary>§6 Owner prefs · P</summary>
 
@@ -34,7 +34,8 @@ P-03 Owner-facing text RU; agent files EN
 </details>
 <details><summary>§7 Rakes · project G</summary>
 
-G-P02 Vitest on Windows: «failed to find the current suite», 0 tests → use `globals: true`, never import describe/test/expect from 'vitest'.
+G-P03 PC global git identity = other account (Apex4Coder) → every repo of this project sets local user.name/user.email before first commit; check `git log --format=%ae -1`.
+G-P02 Vitest on Windows: «failed to find the current suite», 0 tests → `globals: true`, never import describe/test/expect from 'vitest'.
 G-P01 Playwright `acceptDownloads` renames downloads to GUIDs and bypasses onDeterminingFilename → stand sets CDP `Browser.setDownloadBehavior {behavior:'default'}` + profile pref download.default_directory.
 </details>
 <details><summary>§8 Mockups · M → screen → file</summary>
