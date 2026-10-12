@@ -1,4 +1,3 @@
-import { expect, test } from 'vitest';
 import { makeDefaultState } from '../../lib/defaults';
 import { normalizeState, pushRecent } from '../../lib/state';
 

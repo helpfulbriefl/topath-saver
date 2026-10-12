@@ -4,3 +4,7 @@
 #tags: brief onDeterminingFilename wxt paper atomiccrm eth
 Brief + D-01..D-12 agreed with Owner. Analyst wrote full v0.1.0 code + README via GitHub (D-10); verified in Linux sandbox: tsc clean, vitest 38/38, wxt build 316 KB, stand 7/7 with real downloads.
 G-P01: Playwright download handling bypasses extension routing → CDP behavior 'default'.
+## L-002 · 2026-10-12 · W1-INIT · ◐PARTIAL @rev1 · -
+#tags: vitest globals current-suite windows doctor
+Coder rev 1: preflight ✅ (gh = helpfulbriefl), SYS → helpfulbriefl mirror ✅, clone ✅; gates ❌ vitest 0 tests on Windows (Z-01), stand ❌ no build (Z-02).
+Analyst fix: Vitest globals, `stand` = build + playwright, stand guards, `npm run doctor`. TASK rev 2 resumes at task 4.

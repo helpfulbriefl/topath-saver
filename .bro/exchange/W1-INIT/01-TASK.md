@@ -1,6 +1,6 @@
 ---
 ver: v3.0 · build: JOIN · wave: W1-INIT · layer: integration
-t_issued: 2026-10-12 21:30 · tasks: 6 · pass_criteria: 7 · an_turn: 1
+t_issued: 2026-10-12 21:30 · rev: 2 (2026-10-12 23:10, analyst fixed Z-01/Z-02) · tasks: 6 · pass_criteria: 7 · an_turn: 1
 allow: docs/screenshots/**; package-lock.json
 modules: STAND · mirror: %LOCALAPPDATA%\BRO-MIRROR\topath-saver · risky: no
 road: W0-BRIEF=done!:Бриф; W1-INIT=run:Проверка и запуск; W2-STORE=todo!:Web Store; W3-POLISH=todo:Полировка
@@ -34,8 +34,8 @@ none — all code is in the repo. Do not change any file outside `allow` + `.bro
 3 Project into P:
    `$P="C:\Users\BazaCode\Desktop\cody-proj\win-utils\topath-saver"` · `Get-ChildItem -Force $P` → anything except `.bro` → move to `$env:TEMP\topath-first-extra`, list in REPORT as Q-01 · `Move-Item "$P\.bro" "$env:TEMP\topath-bro-first"` · `git clone https://github.com/helpfulbriefl/topath-saver $P` · `fc.exe "$env:TEMP\topath-bro-first\exchange\W1-INIT\01-TASK.md" "$P\.bro\exchange\W1-INIT\01-TASK.md"` (differs → repo wins, note in REPORT) · copy preflight.log + sys.log into `$P\.bro\exchange\W1-INIT\logs\` · `bro init $P W1-INIT JOIN` · `bro begin $P` · `git -C $P status` → `logs\a-status.log`.
    → check: `git -C $P remote get-url origin` = https://github.com/helpfulbriefl/topath-saver(.git).
-4 Install + gates + stand (from P, logs via C5):
-   `cmd /c "npm ci > .bro\exchange\W1-INIT\logs\npm-ci.log 2>&1"` · `cmd /c "npx playwright install chromium > .bro\exchange\W1-INIT\logs\pw-install.log 2>&1"` · `cmd /c "set BRO_PROOF=.bro\exchange\W1-INIT\proof&& npm run gates > .bro\exchange\W1-INIT\logs\gates.log 2>&1"` · `cmd /c "set DOCS=1&& npm run stand > .bro\exchange\W1-INIT\logs\stand-docs.log 2>&1"` · copy `test-results\extension-02-*\trace.zip` → `.bro\exchange\W1-INIT\proof\trace.zip`.
+4 Install + gates + stand (from P, logs via C5). rev 2: resume here after `git pull --ff-only` (tasks 1–3 already done, don't redo):
+   `cmd /c "npm run doctor > .bro\exchange\W1-INIT\logs\doctor.log 2>&1"` (env facts, no secrets) · `cmd /c "npm ci > .bro\exchange\W1-INIT\logs\npm-ci.log 2>&1"` · `cmd /c "npx playwright install chromium > .bro\exchange\W1-INIT\logs\pw-install.log 2>&1"` · `cmd /c "set BRO_PROOF=.bro\exchange\W1-INIT\proof&& npm run gates > .bro\exchange\W1-INIT\logs\gates.log 2>&1"` · `cmd /c "set DOCS=1&& npm run stand > .bro\exchange\W1-INIT\logs\stand-docs.log 2>&1"` · copy `test-results\extension-02-*\trace.zip` → `.bro\exchange\W1-INIT\proof\trace.zip`.
    FAIL → do NOT edit code (not in allow): max 2 reruns (flaky), then report ❌ with the failing test name + first error lines from gates.log in REPORT. `npm ci` changes package-lock.json → keep, mention in REPORT.
    → check: gates.log ends with `7 passed`, exit 0; `docs\screenshots\` has 7 png.
 5 Proof + report: `proof\INDEX.md` rows = PASS 1–7 with files from §3 Proof (✅ only if file exists and shows it) · copy 5 `download-*.txt` lines into REPORT · fill `02-REPORT.md` keys marked `you` · Owner check for later (not blocking): Owner can load `P\.output\chrome-mv3` via chrome://extensions → Load unpacked.
@@ -43,4 +43,5 @@ none — all code is in the repo. Do not change any file outside `allow` + `.bro
 6 Ship: D3 `git add -A` · `git commit -m "W1-INIT: verified on Windows, README screenshots"` · `git tag w1-init-done` · `git push -u origin HEAD` · `git push origin --tags` → D4 `bro finish $P` (fix what it lists) → D5 commit report + push; before SYS push run `git -C $SYS remote get-url --push origin` — must contain helpfulbriefl, else STOP. Do NOT create `v*` tags (release = analyst after ACCEPT).
    → check: `git ls-remote --tags origin w1-init-done` prints hash; GitHub Actions «Checks» started (`gh run list -L 1`).
 ## Z Defects from ACCEPT -
-- none
+- Z-01 (found by coder, rev 1): `vitest run` on Windows → 5 failed suites, 0 tests, «Vitest failed to find the current suite» / «reading 'config'». Analyst fix: tests use Vitest globals (`globals: true`, no `import … from 'vitest'`). Do NOT edit; just rerun. Still failing → put first 40 lines of the vitest part of gates.log + doctor.log into REPORT, ❌, continue with stand anyway (`npm run stand`).
+- Z-02 (rev 1): stand fixture `sw` timeout = consequence of Z-01 (gates stopped before build, `.output` absent). Fix: `npm run stand` now builds first; clear error if build or service worker missing.

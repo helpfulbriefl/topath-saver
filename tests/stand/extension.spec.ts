@@ -10,6 +10,9 @@ import os from 'node:os';
 import path from 'node:path';
 
 const EXT = path.resolve('.output/chrome-mv3');
+if (!fs.existsSync(path.join(EXT, 'manifest.json'))) {
+  throw new Error(`No build in ${EXT}. Run "npm run stand" (it builds first) or "npm run build".`);
+}
 const PR = process.env.BRO_PROOF ?? 'test-results/proof';
 const DOCS = process.env.DOCS === '1' ? 'docs/screenshots' : null;
 
@@ -45,7 +48,9 @@ const test = base.extend<{}, Fx>({
   }, { scope: 'worker' }],
   sw: [async ({ ext }, use) => {
     let [sw] = ext.serviceWorkers();
-    if (!sw) sw = await ext.waitForEvent('serviceworker');
+    if (!sw) sw = await ext.waitForEvent('serviceworker', { timeout: 20_000 }).catch(() => {
+      throw new Error(`Extension service worker did not start. Pages: ${ext.pages().map((p) => p.url()).join(', ') || 'none'}`);
+    });
     await use(sw);
   }, { scope: 'worker' }],
   extensionId: [async ({ sw }, use) => use(new URL(sw.url()).host), { scope: 'worker' }],

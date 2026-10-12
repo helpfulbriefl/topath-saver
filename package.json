@@ -11,8 +11,9 @@
     "qr": "node scripts/qr.mjs",
     "compile": "tsc --noEmit",
     "test": "vitest run",
-    "stand": "playwright test",
-    "gates": "npm run compile && npm run test && npm run build && npm run stand"
+    "stand": "wxt build && playwright test",
+    "gates": "npm run compile && npm run test && npm run stand",
+    "doctor": "node scripts/doctor.mjs"
   },
   "license": "MIT",
   "type": "module",

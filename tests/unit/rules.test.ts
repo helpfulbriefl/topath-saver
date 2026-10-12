@@ -1,4 +1,3 @@
-import { expect, test } from 'vitest';
 import { categoryOf, extOf } from '../../lib/rules';
 
 test('extOf', () => {

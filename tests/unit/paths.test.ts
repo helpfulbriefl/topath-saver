@@ -1,4 +1,3 @@
-import { describe, expect, test } from 'vitest';
 import { endsWithFolder, normalizeFolder, sanitizeFileName, sanitizeFolder, stripFolder, validateFolder } from '../../lib/paths';
 
 describe('validateFolder', () => {

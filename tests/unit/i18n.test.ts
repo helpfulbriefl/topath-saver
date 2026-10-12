@@ -1,4 +1,3 @@
-import { expect, test } from 'vitest';
 import { DICTS, relTime, t } from '../../lib/i18n';
 
 test('every language has every key, none empty', () => {

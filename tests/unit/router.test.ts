@@ -1,4 +1,3 @@
-import { expect, test } from 'vitest';
 import { makeDefaultState } from '../../lib/defaults';
 import { afterRouted, badgeFor, buildFilename, resolveTarget } from '../../lib/router';
 import type { State } from '../../lib/types';

@@ -34,6 +34,7 @@ P-03 Owner-facing text RU; agent files EN
 </details>
 <details><summary>§7 Rakes · project G</summary>
 
+G-P02 Vitest on Windows: «failed to find the current suite», 0 tests → use `globals: true`, never import describe/test/expect from 'vitest'.
 G-P01 Playwright `acceptDownloads` renames downloads to GUIDs and bypasses onDeterminingFilename → stand sets CDP `Browser.setDownloadBehavior {behavior:'default'}` + profile pref download.default_directory.
 </details>
 <details><summary>§8 Mockups · M → screen → file</summary>
