@@ -1,10 +1,10 @@
 ---
-wave: W4-STORE · ver: v3.0 · t_start: auto · t_report: auto
-commit: auto · tag: auto · push: auto · bundle: auto · pack: auto · exchange: auto
-tasks: auto · done: auto · gates_first: yes · repair: 1 · proof_ok: auto · proof_req: auto
-diff_files: auto · diff_add: auto · diff_del: auto · out_of_scope: auto · q: auto · contradictions: 1
+wave: W4-STORE · ver: v3.0 · t_start: 2026-10-13 14:30 · t_report: 2026-10-13 17:04
+commit: 2ae70c1 · tag: w4-store-done · push: ❌ · bundle: ✅ · pack: ✅ · exchange: ✅
+tasks: 4 · done: 4 · gates_first: yes · repair: 1 · proof_ok: 6 · proof_req: 6
+diff_files: 26 · diff_add: 495 · diff_del: 3 · out_of_scope: 1 · q: 0 · contradictions: 1
 K1: 1 · K2: 1 · K3: 1 · K4: 1 · k_why: - · friction_cd: #env
-cd_in: auto · cd_out: auto · prompt_weight: auto · an_in_prev: auto · an_out_prev: auto
+cd_in: 7529 · cd_out: 7411 · prompt_weight: 4515 · an_in_prev: 711 · an_out_prev: 3914
 ---
 # REPORT W4-STORE — evidence repair and Chrome Web Store upload kit
 
