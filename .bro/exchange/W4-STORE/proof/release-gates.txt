@@ -1,0 +1,80 @@
+Actual gh run view 38323606254 --log excerpt; ANSI stripped.
+Run: https://github.com/helpfulbriefl/topath-saver/actions/runs/38323606254
+Commit: 7d751eff3869cbc90c9df8ab571a5fe0aa268ae2; conclusion: success
+release	UNKNOWN STEP	2026-10-12T23:43:51.5107694Z ##[group]Run npm run gates
+release	UNKNOWN STEP	2026-10-12T23:43:51.5107995Z ^[[36;1mnpm run gates^[[0m
+release	UNKNOWN STEP	2026-10-12T23:43:51.5171550Z shell: /usr/bin/bash -e {0}
+release	UNKNOWN STEP	2026-10-12T23:43:51.5171829Z ##[endgroup]
+release	UNKNOWN STEP	2026-10-12T23:43:51.6182654Z
+release	UNKNOWN STEP	2026-10-12T23:43:51.6183255Z > topath-saver@0.2.0 gates
+release	UNKNOWN STEP	2026-10-12T23:43:51.6184012Z > npm run compile && npm run test && npm run stand
+release	UNKNOWN STEP	2026-10-12T23:43:51.6184448Z
+release	UNKNOWN STEP	2026-10-12T23:43:51.7147925Z
+release	UNKNOWN STEP	2026-10-12T23:43:51.7148661Z > topath-saver@0.2.0 compile
+release	UNKNOWN STEP	2026-10-12T23:43:51.7149413Z > tsc --noEmit
+release	UNKNOWN STEP	2026-10-12T23:43:51.7149730Z
+release	UNKNOWN STEP	2026-10-12T23:43:54.3149478Z
+release	UNKNOWN STEP	2026-10-12T23:43:54.3149991Z > topath-saver@0.2.0 test
+release	UNKNOWN STEP	2026-10-12T23:43:54.3150356Z > vitest run
+release	UNKNOWN STEP	2026-10-12T23:43:54.3150505Z
+release	UNKNOWN STEP	2026-10-12T23:43:54.6177275Z
+release	UNKNOWN STEP	2026-10-12T23:43:54.6181204Z ^[[1m^[[30m^[[46m RUN ^[[49m^[[39m^[[22m ^[[36mv4.1.11 ^[[39m^[[90m/home/runner/work/topath-saver/topath-saver^[[39m
+release	UNKNOWN STEP	2026-10-12T23:43:54.6181900Z
+release	UNKNOWN STEP	2026-10-12T23:43:54.8788721Z  ^[[32m✓^[[39m tests/unit/paths.test.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+release	UNKNOWN STEP	2026-10-12T23:43:54.8795672Z  ^[[32m✓^[[39m tests/unit/state.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+release	UNKNOWN STEP	2026-10-12T23:43:54.8801837Z  ^[[32m✓^[[39m tests/unit/router.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+release	UNKNOWN STEP	2026-10-12T23:43:55.0369424Z  ^[[32m✓^[[39m tests/unit/rules.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+release	UNKNOWN STEP	2026-10-12T23:43:55.0725465Z  ^[[32m✓^[[39m tests/unit/i18n.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+release	UNKNOWN STEP	2026-10-12T23:43:55.0755532Z
+release	UNKNOWN STEP	2026-10-12T23:43:55.0763396Z ^[[2m Test Files ^[[22m ^[[1m^[[32m5 passed^[[39m^[[22m^[[90m (5)^[[39m
+release	UNKNOWN STEP	2026-10-12T23:43:55.0764414Z ^[[2m      Tests ^[[22m ^[[1m^[[32m38 passed^[[39m^[[22m^[[90m (38)^[[39m
+release	UNKNOWN STEP	2026-10-12T23:43:55.0765378Z ^[[2m   Start at ^[[22m 23:43:54
+release	UNKNOWN STEP	2026-10-12T23:43:55.0766577Z ^[[2m   Duration ^[[22m 451ms^[[2m (transform 189ms, setup 0ms, import 267ms, tests 56ms, environment 1ms)^[[22m
+release	UNKNOWN STEP	2026-10-12T23:43:55.0768310Z
+release	UNKNOWN STEP	2026-10-12T23:43:55.2077083Z
+release	UNKNOWN STEP	2026-10-12T23:43:55.2077581Z > topath-saver@0.2.0 stand
+release	UNKNOWN STEP	2026-10-12T23:43:55.2078159Z > wxt build && playwright test
+release	UNKNOWN STEP	2026-10-12T23:43:55.2078372Z
+release	UNKNOWN STEP	2026-10-12T23:43:55.5786111Z [log]
+release	UNKNOWN STEP	2026-10-12T23:43:55.5786588Z WXT 0.21.4
+release	UNKNOWN STEP	2026-10-12T23:43:55.7560552Z [info] Building chrome-mv3 for production with Vite 8.3.4
+release	UNKNOWN STEP	2026-10-12T23:43:55.9225452Z ^[[?25l
+release	UNKNOWN STEP	2026-10-12T23:43:55.9309675Z ⠋ Preparing...^[[K
+release	UNKNOWN STEP	2026-10-12T23:43:56.0032841Z ⠋ [1/2] background^[[K
+release	UNKNOWN STEP	2026-10-12T23:43:56.0064047Z ⠙ [1/2] background^[[K
+release	UNKNOWN STEP	2026-10-12T23:43:56.0883023Z ⠙ [2/2] popup^[[K
+release	UNKNOWN STEP	2026-10-12T23:43:56.2373722Z ⠹ [2/2] popup^[[K
+release	UNKNOWN STEP	2026-10-12T23:43:56.3172375Z ⠸ [2/2] popup^[[K
+release	UNKNOWN STEP	2026-10-12T23:43:56.3728107Z ⠼ [2/2] popup^[[K
+release	UNKNOWN STEP	2026-10-12T23:43:56.3728645Z ^[[K^[[?25h
+release	UNKNOWN STEP	2026-10-12T23:43:56.3742734Z ^[[K^[[?25h[success] Built extension in 617 ms
+release	UNKNOWN STEP	2026-10-12T23:43:56.3743358Z   ├─ .output/chrome-mv3/manifest.json                 978 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3743936Z   ├─ .output/chrome-mv3/popup.html                    450 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3744511Z   ├─ .output/chrome-mv3/background.js                 30.68 kB
+release	UNKNOWN STEP	2026-10-12T23:43:56.3745287Z   ├─ .output/chrome-mv3/chunks/popup-D00cQL_0.js      360.15 kB
+release	UNKNOWN STEP	2026-10-12T23:43:56.3745878Z   ├─ .output/chrome-mv3/assets/popup-DyL5WQUC.css     19.36 kB
+release	UNKNOWN STEP	2026-10-12T23:43:56.3746424Z   ├─ .output/chrome-mv3/_locales/en/messages.json     540 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3746956Z   ├─ .output/chrome-mv3/_locales/es/messages.json     591 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3747510Z   ├─ .output/chrome-mv3/_locales/ru/messages.json     724 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3748049Z   ├─ .output/chrome-mv3/_locales/zh_CN/messages.json  552 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3748557Z   ├─ .output/chrome-mv3/icon/128.png                  2.25 kB
+release	UNKNOWN STEP	2026-10-12T23:43:56.3749062Z   ├─ .output/chrome-mv3/icon/16.png                   372 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3749598Z   ├─ .output/chrome-mv3/icon/32.png                   631 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3750102Z   └─ .output/chrome-mv3/icon/48.png                   974 B
+release	UNKNOWN STEP	2026-10-12T23:43:56.3751186Z Σ Total size: 418.25 kB
+release	UNKNOWN STEP	2026-10-12T23:43:56.3751844Z [success] Finished in 797 ms
+release	UNKNOWN STEP	2026-10-12T23:43:57.2168575Z
+release	UNKNOWN STEP	2026-10-12T23:43:57.2169196Z Running 10 tests using 1 worker
+release	UNKNOWN STEP	2026-10-12T23:43:57.2170586Z
+release	UNKNOWN STEP	2026-10-12T23:43:59.0239129Z   ✓   1 tests/stand/extension.spec.ts:108:1 › 01 main popup: default mode, all rows visible (689ms)
+release	UNKNOWN STEP	2026-10-12T23:44:00.5687657Z   ✓   2 tests/stand/extension.spec.ts:124:1 › 02 pick Images → real download lands in Downloads/Images, badge IMG (1.4s)
+release	UNKNOWN STEP	2026-10-12T23:44:01.1996341Z   ✓   3 tests/stand/extension.spec.ts:145:1 › 02b two downloads at once (Gmail "download all") both land in Documents (554ms)
+release	UNKNOWN STEP	2026-10-12T23:44:02.2083445Z   ✓   4 tests/stand/extension.spec.ts:160:1 › 03 auto-sort: pdf → Documents, exe → Chrome default (923ms)
+release	UNKNOWN STEP	2026-10-12T23:44:03.2682705Z   ✓   5 tests/stand/extension.spec.ts:177:1 › 04 custom folder: invalid input blocked, fix, save, real download (970ms)
+release	UNKNOWN STEP	2026-10-12T23:44:04.0864450Z   ✓   6 tests/stand/extension.spec.ts:202:1 › 05 once: Video for one download, then back to the mode chosen before (Chrome default) (720ms)
+release	UNKNOWN STEP	2026-10-12T23:44:06.2861096Z   ✓   7 tests/stand/extension.spec.ts:219:1 › 06 settings: language, dark theme, support card, reset (2.0s)
+release	UNKNOWN STEP	2026-10-12T23:44:06.5791920Z   ✓   8 tests/stand/extension.spec.ts:247:1 › 07 failed download → error recorded, file never lost (259ms)
+release	UNKNOWN STEP	2026-10-12T23:44:07.2746490Z   ✓   9 tests/stand/extension.spec.ts:267:1 › 08 Download all from Gmail: batch keeps one-time folder, then returns to previous (619ms)
+release	UNKNOWN STEP	2026-10-12T23:44:11.4999141Z   ✓  10 tests/stand/extension.spec.ts:292:1 › 09 icon styles: lines, duotone, Windows 11, 3D — switch in Settings (3.9s)
+release	UNKNOWN STEP	2026-10-12T23:44:11.6051957Z
+release	UNKNOWN STEP	2026-10-12T23:44:11.6056816Z   10 passed (14.6s)

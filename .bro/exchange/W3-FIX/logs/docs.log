@@ -1,0 +1,15 @@
+
+Running 10 tests using 1 worker
+
+  ok  1 tests\stand\extension.spec.ts:108:1 › 01 main popup: default mode, all rows visible (1.0s)
+  ok  2 tests\stand\extension.spec.ts:124:1 › 02 pick Images → real download lands in Downloads/Images, badge IMG (1.8s)
+  ok  3 tests\stand\extension.spec.ts:145:1 › 02b two downloads at once (Gmail "download all") both land in Documents (755ms)
+  ok  4 tests\stand\extension.spec.ts:160:1 › 03 auto-sort: pdf → Documents, exe → Chrome default (1.2s)
+  ok  5 tests\stand\extension.spec.ts:177:1 › 04 custom folder: invalid input blocked, fix, save, real download (1.3s)
+  ok  6 tests\stand\extension.spec.ts:202:1 › 05 once: Video for one download, then back to the mode chosen before (Chrome default) (890ms)
+  ok  7 tests\stand\extension.spec.ts:219:1 › 06 settings: language, dark theme, support card, reset (3.2s)
+  ok  8 tests\stand\extension.spec.ts:247:1 › 07 failed download → error recorded, file never lost (498ms)
+  ok  9 tests\stand\extension.spec.ts:267:1 › 08 Download all from Gmail: batch keeps one-time folder, then returns to previous (1.1s)
+  ok 10 tests\stand\extension.spec.ts:292:1 › 09 icon styles: lines, duotone, Windows 11, 3D — switch in Settings (4.4s)
+
+  10 passed (23.9s)

@@ -2,46 +2,28 @@ window.BRO_STATE = {
     "project":  "topath-saver",
     "ver":  "v3.0",
     "mode":  "JOIN",
-    "updated":  "2026-10-13 02:45",
-    "wave":  "W3-FIX",
-    "current":  "Фикс + Gmail 0.2.0",
-    "turn":  "analyst",
-    "turn_text":  "🧠 аналитик",
-    "todo":  "напиши аналитику: BRO CHECK",
-    "next_stop":  "🛑 Фикс + Gmail 0.2.0 — сейчас",
-    "done":  3,
-    "total":  6,
-    "pct":  50,
-    "bar":  "▰▰▰▰▱▱▱▱",
+    "updated":  "2026-10-13 14:30",
+    "wave":  "W4-STORE",
+    "current":  "Web Store",
+    "turn":  "coder",
+    "turn_text":  "🤖 кодер",
+    "todo":  "ничего — ждём «Готово» от кодера",
+    "next_stop":  "🛑 Web Store — сейчас",
+    "done":  1,
+    "total":  3,
+    "pct":  33,
+    "bar":  "▰▰▰▱▱▱▱▱",
     "road":  [
                  {
-                     "id":  "W0-BRIEF",
-                     "title":  "Бриф",
-                     "status":  "done",
-                     "stop":  true
-                 },
-                 {
-                     "id":  "W1-INIT",
-                     "title":  "Проверка и запуск",
+                     "id":  "W3-FIX",
+                     "title":  "PARTIAL proof",
                      "status":  "done",
                      "stop":  false
                  },
                  {
-                     "id":  "W2-RELEASE",
-                     "title":  "Авторы и релиз",
-                     "status":  "done",
-                     "stop":  true
-                 },
-                 {
-                     "id":  "W3-FIX",
-                     "title":  "Фикс + Gmail 0.2.0",
-                     "status":  "run",
-                     "stop":  true
-                 },
-                 {
                      "id":  "W4-STORE",
                      "title":  "Web Store",
-                     "status":  "todo",
+                     "status":  "run",
                      "stop":  true
                  },
                  {
@@ -52,15 +34,15 @@ window.BRO_STATE = {
                  }
              ],
     "metrics":  {
-                    "waves":  2,
-                    "first_pass":  "1/2",
-                    "false_done":  0,
-                    "minutes":  6,
-                    "wait":  9,
-                    "ptok_task":  1595,
-                    "gh":  7,
+                    "waves":  3,
+                    "first_pass":  "1/3",
+                    "false_done":  1,
+                    "minutes":  7,
+                    "wait":  "-",
+                    "ptok_task":  1666,
+                    "gh":  10.7,
                     "k":  4,
-                    "o":  3.5
+                    "o":  3.3
                 },
     "waves":  [
                   {
@@ -80,6 +62,15 @@ window.BRO_STATE = {
                       "done":  "6",
                       "defects":  "0",
                       "gh":  "5"
+                  },
+                  {
+                      "wave":  "W3-FIX",
+                      "verdict":  "PARTIAL",
+                      "minutes":  7,
+                      "tasks":  "5",
+                      "done":  "5",
+                      "defects":  "2",
+                      "gh":  "18"
                   }
               ]
 };

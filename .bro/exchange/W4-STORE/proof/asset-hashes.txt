@@ -1,0 +1,18 @@
+Хэш SHA256 docs\store\assets\01-folders.png:
+66a1b4cd2606b77c5dc70a62a22f12657eaad6b7e06dde83fce6ca8f256011d7
+CertUtil: -hashfile — команда успешно выполнена.
+Хэш SHA256 docs\store\assets\02-auto-sort.png:
+9a0979f41e7346e7134692366f1ffd1a025aeead61f5df1a4450f5319b25e744
+CertUtil: -hashfile — команда успешно выполнена.
+Хэш SHA256 docs\store\assets\03-icon-styles.png:
+6efb85cbbb82fcca7cc54b9509f8753dc87a31cff4be60cad8be04b533871705
+CertUtil: -hashfile — команда успешно выполнена.
+Хэш SHA256 docs\store\assets\04-dark.png:
+988fe9b8826f2c6142e7242098c05ce50268839206cd773bf6ee8deaea9d1652
+CertUtil: -hashfile — команда успешно выполнена.
+Хэш SHA256 docs\store\assets\small-promo.png:
+395ac773b11f104678ac51736ba1df6c04ee0e44c804aa9adbd843d92355e254
+CertUtil: -hashfile — команда успешно выполнена.
+Хэш SHA256 docs\store\assets\icon-128.png:
+5eabf17de34b9181e09382c0f79b561bb8a6dd059f6eae890d574db03d2c1f56
+CertUtil: -hashfile — команда успешно выполнена.

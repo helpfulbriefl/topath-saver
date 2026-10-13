@@ -16,3 +16,9 @@ Result: Windows gates green (tsc, vitest 38, build, stand 7/7 real downloads), 7
 ## L-004 · 2026-10-13 · W2-RELEASE · ✔PASS @4e7ff1a · w2-release-done
 #tags: reset-author force-with-lease release v0.1.0 sha256
 Result: history authors fixed (no Apex4Coder), local identity in P+SYS (D-13), metrics in own SYS, GitHub release v0.1.0 (zip 105 KB + SHA256SUMS) via Actions. Next: Owner smoke test (S4) → W3-STORE.
+
+## L-005 · 2026-10-13 · W3-FIX · ◐PARTIAL @7d751ef · w3-fix-done
+#tags: gmail icons 0.2.0 sha256 ignored-logs privacy
+Result: v0.2.0 release ZIP+SHA256 verified; Windows proof routes parallel files into Documents and Gmail batch into Images; dark screenshot clean; coder/SYS identities correct. Owner smoke: no bugs yet.
+Z-01: Windows gate/release logs omitted by *.log ignore -> W4 force-add sanitized evidence. Z-02: replace blanket no-network wording for Gmail download action.
+Next: W4-STORE prepares upload kit only; Owner handles developer account/payment/publication. No code changes requested.

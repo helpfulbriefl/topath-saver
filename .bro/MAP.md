@@ -15,8 +15,8 @@ wxt 0.21.4 · @wxt-dev/module-react 1.2.2 · react/react-dom 19.3.0 · typescrip
 <details><summary>§4 Invariants · don't touch · secrets (paths only) · ports · Legacy</summary>
 
 - Only relative paths inside Downloads (chrome.downloads limit). Never `conflictAction: overwrite`.
-- No network calls from the extension, no analytics, no remote code.
-- Permissions exactly: downloads, storage, notifications.
+- No analytics, telemetry, remote code or requests to developer servers. User-initiated Gmail attachments are downloaded by Chrome from Google.
+- Permissions exactly: downloads, storage, notifications, activeTab, scripting; last two only for visible attachment discovery when popup opens on Gmail.
 - ETH address `0x50153B5CC3eae905291d62602226C80896Aa64f2` — in lib/config.ts, README, docs/eth-qr.svg (regen: `npm run qr`).
 - public/icon/*.png generated from assets/icon.svg on postinstall (gitignored).
 - Stand: 127.0.0.1 server on random port; isolated temp profile with its own Downloads.
@@ -49,9 +49,12 @@ lib/router.ts · routeFor · 1
 lib/paths.ts · validate/fix/uniquify · 5
 lib/state.ts · reducers · 3
 lib/i18n.ts · 89 keys × 4 langs · 5
+lib/gmail.ts · visible Gmail attachment discovery · popup
+entrypoints/popup/components/GmailButton.tsx · batch action and progress · MainView
+lib/iconsets.ts + lib/icons3d.ts · bundled icon variants · icons.tsx
 entrypoints/popup/App.tsx · views switch · 1
-tests/stand/extension.spec.ts · real-build stand 01–07 · 0
+tests/stand/extension.spec.ts · real-build stand 10 cases, incl. batch and four icon styles · 0
 </details>
 
 ## §10 Roadmap
-W0-BRIEF=done!:Бриф; W1-INIT=done:Проверка и запуск; W2-RELEASE=done!:Авторы и релиз; W3-FIX=run!:Фикс + Gmail 0.2.0; W4-STORE=todo!:Web Store; W5-POLISH=todo:Полировка · next: W4-STORE after Owner v0.2.0 smoke test
+W0-BRIEF=done!:Бриф; W1-INIT=done:Проверка и запуск; W2-RELEASE=done!:Авторы и релиз; W3-FIX=done:Фикс + Gmail 0.2.0 (PARTIAL evidence); W4-STORE=run!:Web Store + proof repair; W5-POLISH=todo:Полировка · next: Owner reviews store kit; registers/uploads himself

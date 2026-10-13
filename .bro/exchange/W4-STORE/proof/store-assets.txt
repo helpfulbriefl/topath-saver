@@ -1,0 +1,23 @@
+W4-STORE store asset QA — 2026-10-13
+
+Initial defect (Z-03): original docs/screenshots/m01-images-selected.png and m05-main-dark.png were 340x560 and visibly clipped below the first lower checkbox. Originals were preserved byte-for-byte. Initial generated 01/04 drafts are superseded.
+
+New real full captures:
+- docs/store/captures/m01-images-selected-full.png — 340x601; real built extension manifest 0.2.0, commit 6695ce0c8d042fba9d5904e7a7e22df9678596c0; isolated temp profile; English/light/Images selected. Inspected: header, Gmail block, Auto-sort and Only for the next download controls all visible.
+- docs/store/captures/m05-main-dark-full.png — 340x601; same real build and method; English/dark/Chrome default. Inspected: header, Gmail block, Auto-sort and disabled Only for the next download controls all visible.
+- Full provenance: docs/store/captures/provenance.json. The only detected overflow is gmail-ring's intentionally clipped decorative pseudo-element; no interface controls are clipped.
+
+Final upload assets inspected individually and at docs/store/proof-downscales/ (640x400):
+| asset | dimensions | QA observation |
+|---|---:|---|
+| assets/01-folders.png | 1280x800 | Full light Images state is centered; title and both bottom controls are readable at 640x400. |
+| assets/02-auto-sort.png | 1280x800 | Auto-sort panel and heading are readable; no overlap or crop introduced. |
+| assets/03-icon-styles.png | 1280x800 | Two native 340x600 captures are unscaled; right capture moved 4px left to keep the mandated 64px outer safe area (TASK x=880 conflicts with 1280−64 safe boundary). |
+| assets/04-dark.png | 1280x800 | Full dark Chrome-default state and both lower controls visible; white heading readable at 640x400. |
+| assets/small-promo.png | 440x280 | Existing project icon, title, subtitle and blue accent visible; no Google logo. |
+| assets/icon-128.png | 128x128 | Transparent margin verified; existing icon art was 120x120, so existing SVG was rendered as 96x96 centered artwork without redesign. |
+
+PASS 2: MET after full-source, final-composition, and 640x400 inspections. No fake inbox, attachment, claim, crop, or overlap used.
+
+Listing summary lengths: EN 115; RU 103; ZH-CN 47; ES 107 Unicode characters (all <=132).
+Original immutable release ZIP SHA-256: e4423dd5be31fa7f8eec6dfad6947a9b00e0524959f6a8cd4f4d79241302ed99 (matches release SHA256SUMS.txt).

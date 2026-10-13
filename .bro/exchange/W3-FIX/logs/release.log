@@ -1,0 +1,14 @@
+title:	v0.2.0
+tag:	v0.2.0
+draft:	false
+prerelease:	false
+immutable:	false
+author:	github-actions[bot]
+created:	2026-10-12T23:43:05Z
+published:	2026-10-12T23:44:16Z
+url:	https://github.com/helpfulbriefl/topath-saver/releases/tag/v0.2.0
+asset:	SHA256SUMS.txt
+asset:	topath-saver-0.2.0-chrome.zip
+--
+**Full Changelog**: https://github.com/helpfulbriefl/topath-saver/compare/v0.1.0...v0.2.0
+completed	success	W3-FIX: verified on Windows, screenshots	Release	v0.2.0	push	38323606254	1m0s	2026-10-12T23:43:19Z

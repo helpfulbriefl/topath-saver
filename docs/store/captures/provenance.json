@@ -1,0 +1,61 @@
+{
+  "manifestVersion": "0.2.0",
+  "buildCommit": "6695ce0c8d042fba9d5904e7a7e22df9678596c0",
+  "method": "Real built extension; isolated temp profile; real UI clicks; measured layout and scroll containers; no DOM/CSS mutations; no mailbox data",
+  "captures": [
+    {
+      "file": "m01-images-selected-full.png",
+      "state": "English; light; Images selected",
+      "viewport": {
+        "width": 340,
+        "height": 601
+      },
+      "layout": {
+        "contentBottom": 601,
+        "documentHeight": 601,
+        "innerScrolling": [
+          {
+            "tag": "BUTTON",
+            "class": "gmail-ring",
+            "clientHeight": 46,
+            "scrollHeight": 115,
+            "overflow": "hidden"
+          }
+        ]
+      },
+      "bottomControl": {
+        "x": 16,
+        "y": 570.5,
+        "width": 16,
+        "height": 16
+      }
+    },
+    {
+      "file": "m05-main-dark-full.png",
+      "state": "English; dark; Chrome default",
+      "viewport": {
+        "width": 340,
+        "height": 601
+      },
+      "layout": {
+        "contentBottom": 601,
+        "documentHeight": 601,
+        "innerScrolling": [
+          {
+            "tag": "BUTTON",
+            "class": "gmail-ring",
+            "clientHeight": 46,
+            "scrollHeight": 115,
+            "overflow": "hidden"
+          }
+        ]
+      },
+      "bottomControl": {
+        "x": 16,
+        "y": 570.5,
+        "width": 16,
+        "height": 16
+      }
+    }
+  ]
+}

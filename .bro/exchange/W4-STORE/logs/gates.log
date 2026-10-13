@@ -1,0 +1,64 @@
+
+> topath-saver@0.2.0 gates
+> npm run compile && npm run test && npm run stand
+
+
+> topath-saver@0.2.0 compile
+> tsc --noEmit
+
+
+> topath-saver@0.2.0 test
+> vitest run
+
+
+ RUN  v4.1.11 <USER_HOME>/Desktop/cody-proj/win-utils/topath-saver
+
+ ✓ tests/unit/rules.test.ts (2 tests) 3ms
+ ✓ tests/unit/i18n.test.ts (2 tests) 14ms
+ ✓ tests/unit/paths.test.ts (24 tests) 10ms
+ ✓ tests/unit/state.test.ts (4 tests) 7ms
+ ✓ tests/unit/router.test.ts (6 tests) 6ms
+
+ Test Files  5 passed (5)
+      Tests  38 passed (38)
+   Start at  14:43:35
+   Duration  371ms (transform 316ms, setup 0ms, import 417ms, tests 39ms, environment 1ms)
+
+
+> topath-saver@0.2.0 stand
+> wxt build && playwright test
+
+
+WXT 0.21.4
+i Building chrome-mv3 for production with Vite 8.3.4
+⠋ Preparing...⠋ [1/2] background⠙ [1/2] background⠙ [2/2] popup⠹ [2/2] popup⠸ [2/2] popup⠼ [2/2] popup⠴ [2/2] popup⠦ [2/2] popup⠧ [2/2] popup⠇ [2/2] popup⠏ [2/2] popup⠋ [2/2] popup√ Built extension in 1.396 s
+  ├─ .output\chrome-mv3\manifest.json                 978 B
+  ├─ .output\chrome-mv3\popup.html                    450 B
+  ├─ .output\chrome-mv3\background.js                 30.68 kB
+  ├─ .output\chrome-mv3\chunks\popup-Bwnfsa-U.js      360.15 kB
+  ├─ .output\chrome-mv3\assets\popup-Bqg9FOV3.css     19.39 kB
+  ├─ .output\chrome-mv3\_locales\en\messages.json     540 B
+  ├─ .output\chrome-mv3\_locales\es\messages.json     591 B
+  ├─ .output\chrome-mv3\_locales\ru\messages.json     724 B
+  ├─ .output\chrome-mv3\_locales\zh_CN\messages.json  552 B
+  ├─ .output\chrome-mv3\icon\128.png                  2.25 kB
+  ├─ .output\chrome-mv3\icon\16.png                   372 B
+  ├─ .output\chrome-mv3\icon\32.png                   631 B
+  └─ .output\chrome-mv3\icon\48.png                   974 B
+Σ Total size: 418.28 kB
+√ Finished in 1.805 s
+
+Running 10 tests using 1 worker
+
+  ok  1 tests\stand\extension.spec.ts:108:1 › 01 main popup: default mode, all rows visible (918ms)
+  ok  2 tests\stand\extension.spec.ts:124:1 › 02 pick Images → real download lands in Downloads/Images, badge IMG (2.5s)
+  ok  3 tests\stand\extension.spec.ts:145:1 › 02b two downloads at once (Gmail "download all") both land in Documents (1.2s)
+  ok  4 tests\stand\extension.spec.ts:160:1 › 03 auto-sort: pdf → Documents, exe → Chrome default (1.3s)
+  ok  5 tests\stand\extension.spec.ts:177:1 › 04 custom folder: invalid input blocked, fix, save, real download (1.8s)
+  ok  6 tests\stand\extension.spec.ts:202:1 › 05 once: Video for one download, then back to the mode chosen before (Chrome default) (1.1s)
+  ok  7 tests\stand\extension.spec.ts:219:1 › 06 settings: language, dark theme, support card, reset (4.5s)
+  ok  8 tests\stand\extension.spec.ts:247:1 › 07 failed download → error recorded, file never lost (553ms)
+  ok  9 tests\stand\extension.spec.ts:267:1 › 08 Download all from Gmail: batch keeps one-time folder, then returns to previous (1.2s)
+  ok 10 tests\stand\extension.spec.ts:292:1 › 09 icon styles: lines, duotone, Windows 11, 3D — switch in Settings (4.8s)
+
+  10 passed (32.8s)

@@ -1,6 +1,6 @@
 # ToPath Saver
 
-**Switch your download folder in two clicks.** A tiny Chrome extension with folder presets, auto-sort by file type and keyboard shortcuts — no tracking, no network, no setup.
+**Switch your download folder in two clicks.** A tiny Chrome extension with folder presets, auto-sort by file type and keyboard shortcuts — no tracking, no developer-server requests, no setup.
 
 [Releases](https://github.com/helpfulbriefl/topath-saver/releases) · [Changelog](CHANGELOG.md) · [Privacy](PRIVACY.md) · [Русский](README.ru.md) · [Report an issue](https://github.com/helpfulbriefl/topath-saver/issues) · [☕ Buy me a coffee](#-support)
 
