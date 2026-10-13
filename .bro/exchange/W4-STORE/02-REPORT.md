@@ -1,6 +1,6 @@
 ---
 wave: W4-STORE · ver: v3.0 · t_start: 2026-10-13 14:30 · t_report: 2026-10-13 17:04
-commit: 2ae70c1 · tag: w4-store-done · push: ❌ · bundle: ✅ · pack: ✅ · exchange: ✅
+commit: 2ae70c1 · tag: w4-store-done · push: ✅ · bundle: ✅ · pack: ✅ · exchange: ✅
 tasks: 4 · done: 4 · gates_first: yes · repair: 1 · proof_ok: 6 · proof_req: 6
 diff_files: 26 · diff_add: 495 · diff_del: 3 · out_of_scope: 1 · q: 0 · contradictions: 1
 K1: 1 · K2: 1 · K3: 1 · K4: 1 · k_why: - · friction_cd: #env
